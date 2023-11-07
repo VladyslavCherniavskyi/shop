@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-category
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+  - changeSet:
+      id: add-category-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: category_id_seq

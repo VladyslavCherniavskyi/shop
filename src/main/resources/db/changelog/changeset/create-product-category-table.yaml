@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-product-category
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: product_category
+            columns:
+              - column:
+                  name: category_id
+                  type: INTEGER
+              - column:
+                  name: product_id
+                  type: BIGINT
+
+        - addPrimaryKey:
+            tableName: product_category
+            columnNames: category_id, product_id
+
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: product_id
+            referencedTableName: product
+            referencedColumnNames: id
+            constraintName: fk_product_category_product_id
+
+        - addForeignKeyConstraint:
+            baseTableName: product_category
+            baseColumnNames: category_id
+            referencedTableName: category
+            referencedColumnNames: id
+            constraintName: fk_product_category_category_id
