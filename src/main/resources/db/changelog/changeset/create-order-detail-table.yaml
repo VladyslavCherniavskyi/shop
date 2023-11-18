@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-order-detail
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: order_detail
+            columns:
+              - column:
+                  name: order_id
+                  type: BIGINT
+              - column:
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  name: quantity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: NUMERIC(10,2)
+                  constraints:
+                    nullable: false
+
+        - addPrimaryKey:
+            tableName: order_detail
+            columnNames: order_id, product_id
+
+        - addForeignKeyConstraint:
+            baseTableName: order_detail
+            baseColumnNames: order_id
+            referencedTableName: order
+            referencedColumnNames: id
+            constraintName: fk_order_detail_order_id
+
+        - addForeignKeyConstraint:
+            baseTableName: order_detail
+            baseColumnNames: product_id
+            referencedTableName: product
+            referencedColumnNames: id
+            constraintName: fk_order_detail_product_id

@@ -5,3 +5,9 @@ databaseChangeLog:
       file: db/changelog/changeset/create-category-table.yaml
   - include:
       file: db/changelog/changeset/create-product-category-table.yaml
+  - include:
+      file: db/changelog/changeset/create-customer-table.yaml
+  - include:
+      file: db/changelog/changeset/create-order-table.yaml
+  - include:
+      file: db/changelog/changeset/create-order-detail-table.yaml
