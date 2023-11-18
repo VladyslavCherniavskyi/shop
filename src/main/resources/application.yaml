@@ -1,0 +1,30 @@
+spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=shop
+    username:
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+  sql:
+    init:
+      platform: postgres
+
+#spring:
+#  datasource:
+#    platform: postgres
+#    driver-class-name: org.postgresql.Driver
+#    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=shop
+#    username:
+#    password:
+#    initialization-mode: never
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    show-sql: false
+#    hibernate:
+#      ddl-auto: validate

@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-product
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: reference_image
+                  type: varchar(255)
+              - column:
+                  name: price
+                  type: numeric(10, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stock_quantity
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: add-product-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: product_id_seq
