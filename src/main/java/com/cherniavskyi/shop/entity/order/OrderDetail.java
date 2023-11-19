@@ -32,4 +32,7 @@ public class OrderDetail {
     @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
 
+    public OrderDetailKey getOrderDetailKey() {
+        return new OrderDetailKey(orderId.getId(), productId.getId());
+    }
 }
