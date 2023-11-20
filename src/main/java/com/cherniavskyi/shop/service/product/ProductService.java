@@ -1,6 +1,6 @@
-package com.cherniavskyi.shop.service;
+package com.cherniavskyi.shop.service.product;
 
-import com.cherniavskyi.shop.entity.Product;
+import com.cherniavskyi.shop.entity.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +15,6 @@ public interface ProductService {
     void delete(Long id);
 
     Page<Product> getAll(Pageable pageable);
+
+    Page<Product> getAllByCategoryName(String categoryName, Pageable pageable);
 }

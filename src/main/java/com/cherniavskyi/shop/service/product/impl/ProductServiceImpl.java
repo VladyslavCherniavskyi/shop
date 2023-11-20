@@ -1,15 +1,19 @@
-package com.cherniavskyi.shop.service.impl;
+package com.cherniavskyi.shop.service.product.impl;
 
-import com.cherniavskyi.shop.entity.Product;
-import com.cherniavskyi.shop.repository.ProductRepository;
-import com.cherniavskyi.shop.service.ProductService;
+import com.cherniavskyi.shop.entity.product.Product;
+import com.cherniavskyi.shop.repository.product.ProductRepository;
+import com.cherniavskyi.shop.service.product.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -44,5 +48,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<Product> getAll(Pageable pageable) {
         return productRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Product> getAllByCategoryName(String name, Pageable pageable) {
+        return Optional.ofNullable(productRepository.findAllByCategoryName(name, pageable)).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("Category with name:%s is not found", name)
+                )
+        );
     }
 }

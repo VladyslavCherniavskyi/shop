@@ -1,7 +1,0 @@
-package com.cherniavskyi.shop.repository;
-
-import com.cherniavskyi.shop.entity.Category;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface CategoryRepository extends JpaRepository<Category, Integer> {
-}

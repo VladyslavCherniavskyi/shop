@@ -1,4 +1,4 @@
-package com.cherniavskyi.shop.entity;
+package com.cherniavskyi.shop.entity.product;
 
 import jakarta.persistence.*;
 import lombok.Getter;

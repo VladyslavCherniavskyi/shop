@@ -1,6 +1,6 @@
-package com.cherniavskyi.shop.service;
+package com.cherniavskyi.shop.service.user;
 
-import com.cherniavskyi.shop.entity.Customer;
+import com.cherniavskyi.shop.entity.user.Customer;
 
 public interface CustomerService {
 

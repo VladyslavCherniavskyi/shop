@@ -1,13 +1,15 @@
-package com.cherniavskyi.shop.service.impl;
+package com.cherniavskyi.shop.service.user.impl;
 
-import com.cherniavskyi.shop.entity.Customer;
-import com.cherniavskyi.shop.repository.CustomerRepository;
-import com.cherniavskyi.shop.service.CustomerService;
+import com.cherniavskyi.shop.entity.user.Customer;
+import com.cherniavskyi.shop.repository.user.CustomerRepository;
+import com.cherniavskyi.shop.service.user.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 

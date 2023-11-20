@@ -1,4 +1,4 @@
-package com.cherniavskyi.shop.entity;
+package com.cherniavskyi.shop.entity.product;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_generator")
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "category")

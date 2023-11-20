@@ -1,4 +1,4 @@
-package com.cherniavskyi.shop.service.impl.order;
+package com.cherniavskyi.shop.service.order.impl;
 
 import com.cherniavskyi.shop.entity.order.OrderDetail;
 import com.cherniavskyi.shop.entity.order.OrderDetailKey;
@@ -7,8 +7,10 @@ import com.cherniavskyi.shop.service.order.OrderDetailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OrderDetailServiceImpl implements OrderDetailService {
 

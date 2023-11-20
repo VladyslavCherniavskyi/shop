@@ -1,13 +1,19 @@
-package com.cherniavskyi.shop.service.impl.order;
+package com.cherniavskyi.shop.service.order.impl;
 
 import com.cherniavskyi.shop.entity.order.Order;
 import com.cherniavskyi.shop.repository.order.OrderRepository;
 import com.cherniavskyi.shop.service.order.OrderService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
@@ -37,5 +43,20 @@ public class OrderServiceImpl implements OrderService {
     public void delete(Long id) {
         var order = read(id);
         orderRepository.delete(order);
+    }
+
+    @Override
+    public Page<Order> getAllByCustomerId(Long id, Pageable pageable) {
+        return Optional.ofNullable(orderRepository.findAllByCustomerId(id, pageable)).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("Customer with id:%s is not found", id)
+                )
+        );
+    }
+
+    @Override
+    public Order patch(Long id, Order order) {
+        read(id);
+        return create(order);
     }
 }
