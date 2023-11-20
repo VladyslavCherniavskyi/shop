@@ -1,8 +1,8 @@
 package com.cherniavskyi.shop.facade.product;
 
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
+import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.mapper.ProductMapper;
-import com.cherniavskyi.shop.service.product.CategoryService;
 import com.cherniavskyi.shop.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductFacade {
 
     private final ProductService productService;
-    private final CategoryService categoryService;
     private final ProductMapper productMapper;
 
     public Page<ProductDtoResponse> getAll(Pageable pageable) {
@@ -29,10 +28,9 @@ public class ProductFacade {
         return productMapper.mapTo(product);
     }
 
-    public Page<ProductDtoResponse> getAllByCategoryName(String name, Pageable pageable) {
-        var categoryName = categoryService.readByName(name).getName();
-        return productService.getAllByCategoryName(categoryName, pageable)
+    public Page<ProductDtoResponse> searchByProductDtoSearch(ProductDtoSearchRequest productDtoSearchRequest, Pageable pageable) {
+        var productDtoQuery = productMapper.mapTo(productDtoSearchRequest);
+        return productService.findByDtoQuery(productDtoQuery, pageable)
                 .map(productMapper::mapTo);
-
     }
 }

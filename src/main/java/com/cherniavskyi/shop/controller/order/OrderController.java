@@ -4,22 +4,22 @@ import com.cherniavskyi.shop.dto.request.OrderDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.OrderDtoPatchRequest;
 import com.cherniavskyi.shop.dto.response.order.OrderDtoResponse;
 import com.cherniavskyi.shop.facade.order.OrderFacade;
-import com.cherniavskyi.shop.service.order.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
+@Validated
 public class OrderController {
 
     private final OrderFacade orderFacade;
-    private final OrderService orderService;
 
     @GetMapping("/{id}/customers")
     public ResponseEntity<Page<OrderDtoResponse>> getAllByCustomerId(@PathVariable @Valid Long id,

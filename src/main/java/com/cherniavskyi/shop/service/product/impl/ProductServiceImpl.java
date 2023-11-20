@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.service.product.impl;
 
+import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
 import com.cherniavskyi.shop.entity.product.Product;
 import com.cherniavskyi.shop.repository.product.ProductRepository;
 import com.cherniavskyi.shop.service.product.ProductService;
@@ -9,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,11 +50,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getAllByCategoryName(String name, Pageable pageable) {
-        return Optional.ofNullable(productRepository.findAllByCategoryName(name, pageable)).orElseThrow(
-                () -> new EntityNotFoundException(
-                        String.format("Category with name:%s is not found", name)
-                )
-        );
+    public Page<Product> findByDtoQuery(ProductDtoQuery productDtoQuery, Pageable pageable) {
+        return productRepository.findByDtoQuery(productDtoQuery, pageable);
     }
 }

@@ -2,10 +2,11 @@ package com.cherniavskyi.shop.mapper;
 
 import com.cherniavskyi.shop.dto.response.product.CategoryDtoResponse;
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
+import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
+import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.entity.product.Category;
 import com.cherniavskyi.shop.entity.product.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -14,10 +15,11 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface ProductMapper {
 
-    @Mapping(target = "categoryId", source = "category.id")
     ProductDtoResponse mapTo(Product product);
 
     CategoryDtoResponse mapTo(Category category);
 
-    Product mapFrom(ProductDtoResponse productDtoResponse);
+    Product mapTo(ProductDtoResponse productDtoResponse);
+
+    ProductDtoQuery mapTo(ProductDtoSearchRequest productDtoSearchRequest);
 }

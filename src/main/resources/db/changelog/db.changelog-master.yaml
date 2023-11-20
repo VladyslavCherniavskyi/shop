@@ -1,13 +1,7 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changeset/create-product-table.yaml
+      file: release-1.0.0/db.changelog-1.0.0.yaml
+      relativeToChangelogFile: true
   - include:
-      file: db/changelog/changeset/create-category-table.yaml
-  - include:
-      file: db/changelog/changeset/create-product-category-table.yaml
-  - include:
-      file: db/changelog/changeset/create-customer-table.yaml
-  - include:
-      file: db/changelog/changeset/create-order-table.yaml
-  - include:
-      file: db/changelog/changeset/create-order-detail-table.yaml
+      file: release-1.0.1/db.changelog-1.0.1.yaml
+      relativeToChangelogFile: true

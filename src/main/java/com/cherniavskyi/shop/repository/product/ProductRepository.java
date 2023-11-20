@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.repository.product;
 
+import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
 import com.cherniavskyi.shop.entity.product.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.category.name = :name")
-    Page<Product> findAllByCategoryName(@Param("name") String name, Pageable pageable);
+    @Query("SELECT p FROM Product p WHERE CONTAINING(p.name, :#{#productDtoQuery.name}) > 2 " +
+            "OR CONTAINING(p.description, :#{#productDtoQuery.description}) > 3")
+    Page<Product> findByDtoQuery(@Param("productDtoQuery") ProductDtoQuery productDtoQuery, Pageable pageable);
+
 }
