@@ -18,4 +18,6 @@ public interface ProductService {
     Page<Product> getAll(Pageable pageable);
 
     Page<Product> findByDtoQuery(ProductDtoQuery productDtoQuery, Pageable pageable);
+
+    Page<Product> findByCategoryId(Integer id, Pageable pageable);
 }

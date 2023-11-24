@@ -53,4 +53,9 @@ public class ProductServiceImpl implements ProductService {
     public Page<Product> findByDtoQuery(ProductDtoQuery productDtoQuery, Pageable pageable) {
         return productRepository.findByDtoQuery(productDtoQuery, pageable);
     }
+
+    @Override
+    public Page<Product> findByCategoryId(Integer categoryId, Pageable pageable) {
+        return productRepository.findByCategoryId(categoryId, pageable);
+    }
 }

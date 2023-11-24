@@ -33,4 +33,9 @@ public class ProductFacade {
         return productService.findByDtoQuery(productDtoQuery, pageable)
                 .map(productMapper::mapTo);
     }
+
+    public Page<ProductDtoResponse> getAllByCategoryId(Integer categoryId, Pageable pageable) {
+        return productService.findByCategoryId(categoryId, pageable)
+                .map(productMapper::mapTo);
+    }
 }

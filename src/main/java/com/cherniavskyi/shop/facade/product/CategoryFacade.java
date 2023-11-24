@@ -27,4 +27,8 @@ public class CategoryFacade {
         return productMapper.mapTo(category);
     }
 
+    public CategoryDtoResponse read(String name) {
+        var category = categoryService.readByName(name);
+        return productMapper.mapTo(category);
+    }
 }

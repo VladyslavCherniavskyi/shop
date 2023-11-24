@@ -5,9 +5,13 @@ import com.cherniavskyi.shop.entity.order.OrderDetailKey;
 import com.cherniavskyi.shop.repository.order.OrderDetailRepository;
 import com.cherniavskyi.shop.service.order.OrderDetailService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -40,5 +44,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     public void delete(OrderDetailKey id) {
         var orderDetail = read(id);
         orderDetailRepository.delete(orderDetail);
+    }
+
+    @Override
+    public Set<OrderDetail> createOrderDetails(@Size(
+            max = 100,
+            message = "Order details limit exceeded. Maximum allowed order details is {max}")
+                                               Set<OrderDetail> orderDetails) {
+        return new HashSet<>(orderDetailRepository.saveAll(orderDetails));
     }
 }

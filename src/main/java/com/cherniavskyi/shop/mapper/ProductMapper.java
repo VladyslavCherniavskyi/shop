@@ -7,6 +7,7 @@ import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.entity.product.Category;
 import com.cherniavskyi.shop.entity.product.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
@@ -21,5 +22,6 @@ public interface ProductMapper {
 
     Product mapTo(ProductDtoResponse productDtoResponse);
 
+    @Mapping(target = "name", source = "infix")
     ProductDtoQuery mapTo(ProductDtoSearchRequest productDtoSearchRequest);
 }
