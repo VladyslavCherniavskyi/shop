@@ -1,4 +1,4 @@
-package com.cherniavskyi.shop.dto.request;
+package com.cherniavskyi.shop.dto.request.order;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

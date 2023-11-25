@@ -1,8 +1,9 @@
 package com.cherniavskyi.shop.mapper;
 
-import com.cherniavskyi.shop.dto.request.OrderDetailDtoCreateRequest;
-import com.cherniavskyi.shop.dto.request.OrderDtoCreateRequest;
-import com.cherniavskyi.shop.dto.request.OrderDtoPatchRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDetailDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDetailDtoPatchRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDtoPatchRequest;
 import com.cherniavskyi.shop.dto.response.order.OrderDetailDtoResponse;
 import com.cherniavskyi.shop.dto.response.order.OrderDtoResponse;
 import com.cherniavskyi.shop.entity.order.Order;
@@ -31,5 +32,7 @@ public interface OrderMapper {
 
     @Mapping(target = "productId.id", source = "productId")
     OrderDetail mapFrom(OrderDetailDtoCreateRequest orderDetailDtoCreateRequest);
+
+    OrderDetail mapFrom(OrderDetailDtoPatchRequest orderDetailDtoPatchRequest);
 
 }

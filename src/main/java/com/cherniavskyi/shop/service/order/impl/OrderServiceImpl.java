@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -47,11 +45,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> getAllByCustomerId(Long id, Pageable pageable) {
-        return Optional.ofNullable(orderRepository.findAllByCustomerId(id, pageable)).orElseThrow(
-                () -> new EntityNotFoundException(
-                        String.format("Customer with id:%s is not found", id)
-                )
-        );
+        return orderRepository.findAllByCustomerId(id, pageable);
     }
 
     @Override

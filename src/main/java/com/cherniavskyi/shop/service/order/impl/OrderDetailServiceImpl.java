@@ -7,6 +7,8 @@ import com.cherniavskyi.shop.service.order.OrderDetailService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,9 +50,24 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public Set<OrderDetail> createOrderDetails(@Size(
-            max = 100,
+            max = 20,
             message = "Order details limit exceeded. Maximum allowed order details is {max}")
                                                Set<OrderDetail> orderDetails) {
         return new HashSet<>(orderDetailRepository.saveAll(orderDetails));
+    }
+
+    public Page<OrderDetail> getAllByOrderId(Long id, Pageable pageable) {
+        return orderDetailRepository.findAllByOrderId(id, pageable);
+    }
+
+    @Override
+    public OrderDetail patch(OrderDetailKey id, OrderDetail orderDetail) {
+        read(id);
+        return create(orderDetail);
+    }
+
+    @Override
+    public void deleteAllByOrderId(Long id) {
+        orderDetailRepository.deleteAllByOrderId(id);
     }
 }

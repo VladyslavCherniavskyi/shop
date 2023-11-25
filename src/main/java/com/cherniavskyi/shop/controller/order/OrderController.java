@@ -1,7 +1,7 @@
 package com.cherniavskyi.shop.controller.order;
 
-import com.cherniavskyi.shop.dto.request.OrderDtoCreateRequest;
-import com.cherniavskyi.shop.dto.request.OrderDtoPatchRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.order.OrderDtoPatchRequest;
 import com.cherniavskyi.shop.dto.response.order.OrderDtoResponse;
 import com.cherniavskyi.shop.facade.order.OrderFacade;
 import jakarta.validation.Valid;

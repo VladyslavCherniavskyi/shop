@@ -24,4 +24,5 @@ public interface ProductMapper {
 
     @Mapping(target = "name", source = "infix")
     ProductDtoQuery mapTo(ProductDtoSearchRequest productDtoSearchRequest);
+
 }
