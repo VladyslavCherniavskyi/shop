@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-brand
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: brand
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: country
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: add-brand-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: brand_id_seq

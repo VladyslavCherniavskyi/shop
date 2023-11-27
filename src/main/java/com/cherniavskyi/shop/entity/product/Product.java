@@ -43,4 +43,27 @@ public class Product {
     )
     private Set<Category> categories;
 
+    @ManyToMany
+    @JoinTable(
+            name = "product_size",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "size_id")
+    )
+    private Set<Size> sizes;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_brand",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "brand_id")
+    )
+    private Set<Brand> brands;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_color",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "color_id")
+    )
+    private Set<Color> colors;
 }
