@@ -9,11 +9,11 @@ import java.util.Set;
 
 public interface OrderDetailService {
 
-    OrderDetail create(OrderDetail product);
+    OrderDetail create(OrderDetail orderDetail);
 
     OrderDetail read(OrderDetailKey id);
 
-    OrderDetail update(OrderDetail product);
+    OrderDetail update(OrderDetail orderDetail);
 
     void delete(OrderDetailKey id);
 

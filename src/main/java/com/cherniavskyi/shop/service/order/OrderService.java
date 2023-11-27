@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
 
-    Order create(Order product);
+    Order create(Order order);
 
     Order read(Long id);
 
-    Order update(Order product);
+    Order update(Order order);
 
     void delete(Long id);
 

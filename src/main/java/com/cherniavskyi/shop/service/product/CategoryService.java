@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
 
-    Category create(Category product);
+    Category create(Category category);
 
     Category read(Integer id);
 
-    Category update(Category product);
+    Category update(Category category);
 
     void delete(Integer id);
 

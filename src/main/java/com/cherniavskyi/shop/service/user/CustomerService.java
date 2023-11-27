@@ -4,11 +4,11 @@ import com.cherniavskyi.shop.entity.user.Customer;
 
 public interface CustomerService {
 
-    Customer create(Customer product);
+    Customer create(Customer customer);
 
     Customer read(Long id);
 
-    Customer update(Customer product);
+    Customer update(Customer customer);
 
     void delete(Long id);
 }
