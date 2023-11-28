@@ -66,4 +66,12 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "color_id")
     )
     private Set<Color> colors;
+
+    @ManyToMany
+    @JoinTable(
+            name = "product_gender",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "gender_id")
+    )
+    private Set<Gender> genders;
 }

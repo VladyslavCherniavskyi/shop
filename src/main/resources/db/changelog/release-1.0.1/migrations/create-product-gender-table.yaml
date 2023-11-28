@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-product-gender
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: product_gender
+            columns:
+              - column:
+                  name: gender_id
+                  type: INTEGER
+              - column:
+                  name: product_id
+                  type: BIGINT
+
+        - addPrimaryKey:
+            tableName: product_gender
+            columnNames: gender_id, product_id
+
+        - addForeignKeyConstraint:
+            baseTableName: product_gender
+            baseColumnNames: product_id
+            referencedTableName: product
+            referencedColumnNames: id
+            constraintName: fk_product_gender_product_id
+
+        - addForeignKeyConstraint:
+            baseTableName: product_gender
+            baseColumnNames: gender_id
+            referencedTableName: gender
+            referencedColumnNames: id
+            constraintName: fk_product_gender_gender_id

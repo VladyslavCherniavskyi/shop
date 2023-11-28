@@ -13,3 +13,7 @@ databaseChangeLog:
       file: db/changelog/release-1.0.1/migrations/create-color-table.yaml
   - include:
       file: db/changelog/release-1.0.1/migrations/create-product-color-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-gender-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-product-gender-table.yaml

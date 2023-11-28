@@ -1,11 +1,9 @@
 package com.cherniavskyi.shop.mapper;
 
-import com.cherniavskyi.shop.dto.response.product.CategoryDtoResponse;
-import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
 import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
+import com.cherniavskyi.shop.dto.response.product.*;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
-import com.cherniavskyi.shop.entity.product.Category;
-import com.cherniavskyi.shop.entity.product.Product;
+import com.cherniavskyi.shop.entity.product.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -20,7 +18,13 @@ public interface ProductMapper {
 
     CategoryDtoResponse mapTo(Category category);
 
-    Product mapTo(ProductDtoResponse productDtoResponse);
+    BrandDtoResponse mapTo(Brand brand);
+
+    ColorDtoResponse mapTo(Color color);
+
+    GenderDtoResponse mapTo(Gender gender);
+
+    SizeDtoResponse mapTo(Size size);
 
     @Mapping(target = "name", source = "infix")
     ProductDtoQuery mapTo(ProductDtoSearchRequest productDtoSearchRequest);
