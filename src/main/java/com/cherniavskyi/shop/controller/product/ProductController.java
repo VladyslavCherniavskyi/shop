@@ -1,6 +1,7 @@
 package com.cherniavskyi.shop.controller.product;
 
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
+import com.cherniavskyi.shop.dto.search.ProductDtoFilterRequest;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.facade.product.ProductFacade;
 import jakarta.validation.Valid;
@@ -42,5 +43,12 @@ public class ProductController {
             @PathVariable @NotNull(message = "id cannot be null") Integer id,
             Pageable pageable) {
         return new ResponseEntity<>(productFacade.getAllByCategoryId(id, pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Page<ProductDtoResponse>> getAllByFilterDtoRequest(
+            @RequestBody @Valid ProductDtoFilterRequest productDtoFilterRequest,
+            Pageable pageable) {
+        return new ResponseEntity<>(productFacade.getAllByFilterDtoRequest(productDtoFilterRequest, pageable), HttpStatus.OK);
     }
 }

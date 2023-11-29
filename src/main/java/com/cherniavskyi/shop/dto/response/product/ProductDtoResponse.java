@@ -8,7 +8,6 @@ public record ProductDtoResponse(
         String description,
         String referenceImage,
         BigDecimal price,
-        Integer stockQuantity,
-        Integer categoryId
+        Integer stockQuantity
 ) {
 }

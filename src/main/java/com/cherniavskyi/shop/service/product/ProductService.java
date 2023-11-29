@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.service.product;
 
+import com.cherniavskyi.shop.dto.query.FilterDtoQuery;
 import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
 import com.cherniavskyi.shop.entity.product.Product;
 import org.springframework.data.domain.Page;
@@ -20,4 +21,6 @@ public interface ProductService {
     Page<Product> findByDtoQuery(ProductDtoQuery productDtoQuery, Pageable pageable);
 
     Page<Product> findByCategoryId(Integer id, Pageable pageable);
+
+    Page<Product> findAllByFilterDtoQuery(FilterDtoQuery filterDtoQuery, Pageable pageable);
 }

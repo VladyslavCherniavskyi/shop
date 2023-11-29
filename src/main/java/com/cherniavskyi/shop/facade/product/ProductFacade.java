@@ -1,6 +1,7 @@
 package com.cherniavskyi.shop.facade.product;
 
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
+import com.cherniavskyi.shop.dto.search.ProductDtoFilterRequest;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.mapper.ProductMapper;
 import com.cherniavskyi.shop.service.product.ProductService;
@@ -36,6 +37,12 @@ public class ProductFacade {
 
     public Page<ProductDtoResponse> getAllByCategoryId(Integer categoryId, Pageable pageable) {
         return productService.findByCategoryId(categoryId, pageable)
+                .map(productMapper::mapTo);
+    }
+
+    public Page<ProductDtoResponse> getAllByFilterDtoRequest(ProductDtoFilterRequest productDtoFilterRequest, Pageable pageable) {
+        var filterDtoQuery = productMapper.mapTo(productDtoFilterRequest);
+        return productService.findAllByFilterDtoQuery(filterDtoQuery, pageable)
                 .map(productMapper::mapTo);
     }
 }

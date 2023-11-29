@@ -1,7 +1,9 @@
 package com.cherniavskyi.shop.mapper;
 
+import com.cherniavskyi.shop.dto.query.FilterDtoQuery;
 import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
 import com.cherniavskyi.shop.dto.response.product.*;
+import com.cherniavskyi.shop.dto.search.ProductDtoFilterRequest;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.entity.product.*;
 import org.mapstruct.Mapper;
@@ -29,4 +31,5 @@ public interface ProductMapper {
     @Mapping(target = "name", source = "infix")
     ProductDtoQuery mapTo(ProductDtoSearchRequest productDtoSearchRequest);
 
+    FilterDtoQuery mapTo(ProductDtoFilterRequest productDtoFilterRequest);
 }
