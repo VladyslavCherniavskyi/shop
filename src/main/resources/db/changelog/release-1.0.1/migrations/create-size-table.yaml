@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-size
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: size
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: international
+                  type: varchar(3)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: european
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+
+  - changeSet:
+      id: add-size-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: size_id_seq

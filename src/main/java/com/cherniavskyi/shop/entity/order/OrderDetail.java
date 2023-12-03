@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.entity.order;
 
-import com.cherniavskyi.shop.entity.Product;
+import com.cherniavskyi.shop.entity.product.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

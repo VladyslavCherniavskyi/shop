@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-column-category-id
+      author: Vladyslav Cherniavskyi
+      changes:
+        - dropColumn:
+            schemaName: shop
+            tableName: product
+            columnName: category_id

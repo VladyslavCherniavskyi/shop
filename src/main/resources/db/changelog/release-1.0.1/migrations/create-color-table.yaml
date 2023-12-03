@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-color
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: color
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: html_code
+                  type: varchar(10)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: red_component
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: add-color-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: color_id_seq
