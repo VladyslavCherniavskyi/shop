@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 @Validated
 public class CustomerController {
@@ -32,13 +32,13 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerDtoResponse> create(@PathVariable @Valid Long id,
+    public ResponseEntity<CustomerDtoResponse> update(@PathVariable @Valid Long id,
                                                       @RequestBody @Valid CustomerDtoUpdateRequest customerDtoUpdateRequest) {
         return new ResponseEntity<>(customerFacade.update(id, customerDtoUpdateRequest), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> create(@PathVariable @Valid Long id) {
+    public ResponseEntity<?> delete(@PathVariable @Valid Long id) {
         customerService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

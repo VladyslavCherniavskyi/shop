@@ -17,3 +17,7 @@ databaseChangeLog:
       file: db/changelog/release-1.0.1/migrations/create-gender-table.yaml
   - include:
       file: db/changelog/release-1.0.1/migrations/create-product-gender-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/drop-column-reference-image.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-photo-table.yaml
