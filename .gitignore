@@ -30,7 +30,6 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
-photouploader/
 
 ### VS Code ###
 .vscode/
