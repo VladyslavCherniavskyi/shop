@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-column-reference-image
+      author: Vladyslav Cherniavskyi
+      changes:
+        - dropColumn:
+            schemaName: shop
+            tableName: product
+            columnName: reference_image

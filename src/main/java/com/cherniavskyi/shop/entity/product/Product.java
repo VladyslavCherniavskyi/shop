@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.entity.product;
 
+import com.cherniavskyi.shop.entity.product.photo.Photo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "reference_image")
-    private String referenceImage;
+    @OneToMany
+    @JoinColumn(name = "id")
+    private Set<Photo> photos;
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
