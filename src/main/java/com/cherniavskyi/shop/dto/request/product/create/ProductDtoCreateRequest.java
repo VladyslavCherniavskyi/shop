@@ -1,7 +1,5 @@
 package com.cherniavskyi.shop.dto.request.product.create;
 
-import com.cherniavskyi.shop.dto.response.product.*;
-import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -14,8 +12,6 @@ public record ProductDtoCreateRequest(
 
         String description,
 
-        Set<PhotoDtoResponse> photos,
-
         @DecimalMin(value = "0.0", message = "Price should be greater than or equal to 0")
         BigDecimal price,
 
@@ -23,20 +19,20 @@ public record ProductDtoCreateRequest(
         @Positive(message = "StockQuantity should be greater than 0")
         Integer stockQuantity,
 
-        @NotEmpty(message = "Categories cannot be empty")
-        Set<CategoryDtoResponse> categories,
+        @NotEmpty(message = "CategoryIds cannot be empty")
+        Set<Integer> categoryIds,
 
-        @NotEmpty(message = "Sizes cannot be empty")
-        Set<SizeDtoResponse> sizes,
+        @NotEmpty(message = "SizeIds cannot be empty")
+        Set<Long> sizeIds,
 
-        @NotEmpty(message = "Brands cannot be empty")
-        Set<BrandDtoResponse> brands,
+        @NotEmpty(message = "BrandIds cannot be empty")
+        Set<Long> brandIds,
 
-        @NotEmpty(message = "Colors cannot be empty")
-        Set<ColorDtoResponse> colors,
+        @NotEmpty(message = "ColorIds cannot be empty")
+        Set<Long> colorIds,
 
-        @NotEmpty(message = "Genders cannot be empty")
-        Set<GenderDtoResponse> genders
+        @NotEmpty(message = "GenderIds cannot be empty")
+        Set<Integer> genderIds
 
 ) {
 }

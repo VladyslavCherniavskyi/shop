@@ -1,8 +1,11 @@
 package com.cherniavskyi.shop.service.product.photo.impl;
 
+import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
+import com.cherniavskyi.shop.entity.product.Product;
 import com.cherniavskyi.shop.entity.product.photo.Photo;
 import com.cherniavskyi.shop.repository.product.photo.PhotoRepository;
 import com.cherniavskyi.shop.service.file.impl.FileStorageServiceImpl;
+import com.cherniavskyi.shop.service.product.impl.ProductServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +26,8 @@ class PhotoServiceImplTest {
 
     @Mock
     private PhotoRepository photoRepository;
+    @Mock
+    private ProductServiceImpl productService;
     @Mock
     private FileStorageServiceImpl fileStorageService;
     @Mock
@@ -47,6 +52,13 @@ class PhotoServiceImplTest {
                 "File content".getBytes()
         );
 
+        var photoDtoRelation = new PhotoDtoRelation(1L);
+        var product = Mockito.mock(Product.class);
+
+        Mockito.doReturn(product)
+                .when(productService)
+                .read(photoDtoRelation.productId());
+
         Mockito.doReturn(new File("mockedPath/testFile.png"))
                 .when(fileStorageService)
                 .upload(Mockito.any(MultipartFile.class));
@@ -56,11 +68,12 @@ class PhotoServiceImplTest {
                 .save(Mockito.any(Photo.class));
 
         //when
-        var actual = photoService.create(mockFile);
+        var actual = photoService.create(photoDtoRelation, mockFile);
 
         //then
         Assertions.assertEquals(mockedPhoto, actual);
         Mockito.verify(fileStorageService).upload(Mockito.any(MultipartFile.class));
+        Mockito.verify(productService).read(photoDtoRelation.productId());
         Mockito.verify(photoRepository).save(Mockito.any(Photo.class));
     }
 

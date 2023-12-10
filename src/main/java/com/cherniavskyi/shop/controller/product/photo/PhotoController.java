@@ -5,6 +5,7 @@ import com.cherniavskyi.shop.facade.product.photo.PhotoFacade;
 import com.cherniavskyi.shop.service.product.photo.PhotoService;
 import com.cherniavskyi.shop.validation.ValidMultipartFile;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -28,14 +29,16 @@ public class PhotoController {
 
     @PostMapping
     public ResponseEntity<PhotoDtoResponse> create(
-            @RequestParam("photo")
-            @ValidMultipartFile MultipartFile file) {
-        return new ResponseEntity<>(photoFacade.create(file), HttpStatus.OK);
+            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
+            @RequestParam("photo") @ValidMultipartFile MultipartFile file) {
+        return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.OK);
     }
 
     @PostMapping("/photos")
-    public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(@RequestParam("photos") MultipartFile[] files) {
-        return new ResponseEntity<>(photoFacade.createPhotos(files), HttpStatus.OK);
+    public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(
+            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
+            @RequestParam("photos") MultipartFile[] files) {
+        return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

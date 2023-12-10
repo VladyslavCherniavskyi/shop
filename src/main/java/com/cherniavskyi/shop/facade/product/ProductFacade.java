@@ -49,21 +49,6 @@ public class ProductFacade {
 
     public ProductDtoResponse create(ProductDtoCreateRequest productDtoCreateRequest) {
         var product = productMapper.mapFrom(productDtoCreateRequest);
-
-        var categories = productMapper.mapCategoryFrom(productDtoCreateRequest.categories());
-        var sizes = productMapper.mapSizeFrom(productDtoCreateRequest.sizes());
-        var brands = productMapper.mapBrandFrom(productDtoCreateRequest.brands());
-        var colors = productMapper.mapColorFrom(productDtoCreateRequest.colors());
-        var genders = productMapper.mapGenderFrom(productDtoCreateRequest.genders());
-        var photos = productMapper.mapPhotoFrom(productDtoCreateRequest.photos());
-
-        product.setCategories(categories);
-        product.setSizes(sizes);
-        product.setBrands(brands);
-        product.setColors(colors);
-        product.setGenders(genders);
-        product.setPhotos(photos);
-//TODO need add photo id
         var createdProduct = productService.create(product);
         return productMapper.mapTo(createdProduct);
     }

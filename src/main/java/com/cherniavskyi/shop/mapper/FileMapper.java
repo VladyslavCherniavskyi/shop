@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.mapper;
 
+import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
 import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import com.cherniavskyi.shop.entity.product.photo.Photo;
 import org.mapstruct.Mapper;
@@ -13,4 +14,5 @@ public interface FileMapper {
 
     PhotoDtoResponse mapTo(Photo photo);
 
+    PhotoDtoRelation mapTo(Long productId);
 }
