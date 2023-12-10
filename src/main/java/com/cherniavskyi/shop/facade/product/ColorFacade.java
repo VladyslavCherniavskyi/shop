@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.facade.product;
 
+import com.cherniavskyi.shop.dto.request.product.create.ColorDtoCreateRequest;
 import com.cherniavskyi.shop.dto.response.product.ColorDtoResponse;
 import com.cherniavskyi.shop.mapper.ProductMapper;
 import com.cherniavskyi.shop.service.product.ColorService;
@@ -25,5 +26,11 @@ public class ColorFacade {
     public ColorDtoResponse read(Long id) {
         var brand = colorService.read(id);
         return productMapper.mapTo(brand);
+    }
+
+    public ColorDtoResponse create(ColorDtoCreateRequest colorDtoCreateRequest) {
+        var color = productMapper.mapFrom(colorDtoCreateRequest);
+        var createdColor = colorService.create(color);
+        return productMapper.mapTo(createdColor);
     }
 }

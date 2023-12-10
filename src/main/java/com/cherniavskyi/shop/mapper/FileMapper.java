@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.mapper;
 
-import com.cherniavskyi.shop.dto.response.product.photo.CreatePhotoDtoResponse;
+import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import com.cherniavskyi.shop.entity.product.photo.Photo;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -11,6 +11,6 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface FileMapper {
 
-    CreatePhotoDtoResponse toDto(Photo photo);
+    PhotoDtoResponse mapTo(Photo photo);
 
 }

@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.controller.product;
 
+import com.cherniavskyi.shop.dto.request.product.create.ProductDtoCreateRequest;
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
 import com.cherniavskyi.shop.dto.search.ProductDtoFilterRequest;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
@@ -50,5 +51,10 @@ public class ProductController {
             @RequestBody @Valid ProductDtoFilterRequest productDtoFilterRequest,
             Pageable pageable) {
         return new ResponseEntity<>(productFacade.getAllByFilterDtoRequest(productDtoFilterRequest, pageable), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDtoResponse> create(@RequestBody @Valid ProductDtoCreateRequest productDtoCreateRequest) {
+        return new ResponseEntity<>(productFacade.create(productDtoCreateRequest), HttpStatus.OK);
     }
 }

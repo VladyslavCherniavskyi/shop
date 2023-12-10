@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.controller.product.photo;
 
-import com.cherniavskyi.shop.dto.response.product.photo.CreatePhotoDtoResponse;
+import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import com.cherniavskyi.shop.facade.product.photo.PhotoFacade;
 import com.cherniavskyi.shop.service.product.photo.PhotoService;
 import com.cherniavskyi.shop.validation.ValidMultipartFile;
@@ -27,14 +27,14 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping
-    public ResponseEntity<CreatePhotoDtoResponse> create(
+    public ResponseEntity<PhotoDtoResponse> create(
             @RequestParam("photo")
             @ValidMultipartFile MultipartFile file) {
         return new ResponseEntity<>(photoFacade.create(file), HttpStatus.OK);
     }
 
     @PostMapping("/photos")
-    public ResponseEntity<Set<CreatePhotoDtoResponse>> createPhotos(@RequestParam("photos") MultipartFile[] files) {
+    public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(@RequestParam("photos") MultipartFile[] files) {
         return new ResponseEntity<>(photoFacade.createPhotos(files), HttpStatus.OK);
     }
 

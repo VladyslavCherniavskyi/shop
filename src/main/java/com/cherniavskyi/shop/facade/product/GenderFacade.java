@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.facade.product;
 
+import com.cherniavskyi.shop.dto.request.product.create.GenderDtoCreateRequest;
 import com.cherniavskyi.shop.dto.response.product.GenderDtoResponse;
 import com.cherniavskyi.shop.mapper.ProductMapper;
 import com.cherniavskyi.shop.service.product.GenderService;
@@ -25,5 +26,11 @@ public class GenderFacade {
     public GenderDtoResponse read(Integer id) {
         var brand = genderService.read(id);
         return productMapper.mapTo(brand);
+    }
+
+    public GenderDtoResponse create(GenderDtoCreateRequest genderDtoCreateRequest) {
+        var gender = productMapper.mapTo(genderDtoCreateRequest);
+        var createdGender = genderService.create(gender);
+        return productMapper.mapTo(createdGender);
     }
 }
