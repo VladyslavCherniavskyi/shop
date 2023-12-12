@@ -1,8 +1,10 @@
 package com.cherniavskyi.shop.controller.product;
 
 import com.cherniavskyi.shop.dto.request.product.create.GenderDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.product.update.GenderDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.product.GenderDtoResponse;
 import com.cherniavskyi.shop.facade.product.GenderFacade;
+import com.cherniavskyi.shop.service.product.GenderService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class GenderController {
 
     private final GenderFacade genderFacade;
+    private final GenderService genderService;
 
     @GetMapping
     public ResponseEntity<Page<GenderDtoResponse>> getAll(Pageable pageable) {
@@ -34,6 +37,19 @@ public class GenderController {
     @PostMapping
     public ResponseEntity<GenderDtoResponse> create(@RequestBody @Valid GenderDtoCreateRequest genderDtoCreateRequest) {
         return new ResponseEntity<>(genderFacade.create(genderDtoCreateRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GenderDtoResponse> update(
+            @PathVariable @NotNull(message = "Id cannot be null") Integer id,
+            @RequestBody @Valid GenderDtoUpdateRequest genderDtoUpdateRequest) {
+        return new ResponseEntity<>(genderFacade.update(id, genderDtoUpdateRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") Integer id) {
+        genderService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

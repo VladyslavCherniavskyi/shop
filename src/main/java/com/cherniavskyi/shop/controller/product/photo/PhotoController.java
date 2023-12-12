@@ -4,7 +4,6 @@ import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import com.cherniavskyi.shop.facade.product.photo.PhotoFacade;
 import com.cherniavskyi.shop.service.product.photo.PhotoService;
 import com.cherniavskyi.shop.validation.ValidMultipartFile;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -42,7 +41,7 @@ public class PhotoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> download(@PathVariable @Valid UUID id) {
+    public ResponseEntity<Resource> download(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
         var resourceDto = photoFacade.download(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -51,7 +50,7 @@ public class PhotoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable @Valid UUID id) {
+    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
         photoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

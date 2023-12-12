@@ -40,8 +40,9 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<OrderDtoResponse> patch(@PathVariable @NotNull(message = "Id cannot be null") Long id,
-                                                  @RequestBody @Valid OrderDtoPatchRequest orderDtoPatchRequest) {
+    public ResponseEntity<OrderDtoResponse> patch(
+            @PathVariable @NotNull(message = "Id cannot be null") Long id,
+            @RequestBody @Valid OrderDtoPatchRequest orderDtoPatchRequest) {
         return new ResponseEntity<>(orderFacade.patch(id, orderDtoPatchRequest), HttpStatus.OK);
     }
 }

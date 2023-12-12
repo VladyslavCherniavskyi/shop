@@ -5,8 +5,7 @@ import jakarta.validation.constraints.Size;
 
 public record GenderDtoUpdateRequest(
         @NotBlank(message = "Gender cannot be empty")
-        @Size(max = 10, message = "Length limit exceeded. Maximum allowed order details is {max}")
-        String htmlCode,
+        @Size(max = 50, message = "Length limit exceeded. Maximum allowed order details is {max}")
         String gender
 ) {
 }
