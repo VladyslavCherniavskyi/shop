@@ -9,7 +9,7 @@ public final class PathUtils {
     }
 
     public static Path getAbsolutePath(String resource) {
-        var rootPath = Paths.get("photouploader").toAbsolutePath().toString();
+        var rootPath = Paths.get("photos").toAbsolutePath().toString();
         return Paths.get(rootPath, resource);
     }
 }

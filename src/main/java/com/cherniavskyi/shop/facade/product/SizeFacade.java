@@ -1,5 +1,7 @@
 package com.cherniavskyi.shop.facade.product;
 
+import com.cherniavskyi.shop.dto.request.product.create.SizeDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.product.update.SizeDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.product.SizeDtoResponse;
 import com.cherniavskyi.shop.mapper.ProductMapper;
 import com.cherniavskyi.shop.service.product.SizeService;
@@ -25,5 +27,18 @@ public class SizeFacade {
     public SizeDtoResponse read(Integer id) {
         var brand = sizeService.read(id);
         return productMapper.mapTo(brand);
+    }
+
+    public SizeDtoResponse create(SizeDtoCreateRequest sizeDtoCreateRequest) {
+        var size = productMapper.mapFrom(sizeDtoCreateRequest);
+        var createdSize = sizeService.create(size);
+        return productMapper.mapTo(createdSize);
+    }
+
+    public SizeDtoResponse update(Integer id, SizeDtoUpdateRequest sizeDtoUpdateRequest) {
+        var size = productMapper.mapFrom(sizeDtoUpdateRequest);
+        size.setId(id);
+        var updatedSize = sizeService.update(size);
+        return productMapper.mapTo(updatedSize);
     }
 }

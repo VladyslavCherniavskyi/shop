@@ -3,8 +3,10 @@ package com.cherniavskyi.shop.exception;
 import com.cherniavskyi.shop.util.TimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,7 +20,9 @@ public class GlobalExceptionHandler {
     private final Map<Class<? extends Exception>, HttpStatus> exceptions = Map.of(
             EntityNotFoundException.class, HttpStatus.NOT_FOUND,
             AccessDeniedException.class, HttpStatus.FORBIDDEN,
-            ConstraintViolationException.class, HttpStatus.BAD_REQUEST
+            MethodArgumentNotValidException.class, HttpStatus.BAD_REQUEST,
+            ConstraintViolationException.class, HttpStatus.BAD_REQUEST,
+            DataIntegrityViolationException.class, HttpStatus.BAD_REQUEST
     );
 
     @ExceptionHandler

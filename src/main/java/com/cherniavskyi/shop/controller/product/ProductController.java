@@ -1,9 +1,12 @@
 package com.cherniavskyi.shop.controller.product;
 
+import com.cherniavskyi.shop.dto.request.product.create.ProductDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.product.update.ProductDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.product.ProductDtoResponse;
 import com.cherniavskyi.shop.dto.search.ProductDtoFilterRequest;
 import com.cherniavskyi.shop.dto.search.ProductDtoSearchRequest;
 import com.cherniavskyi.shop.facade.product.ProductFacade;
+import com.cherniavskyi.shop.service.product.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     private final ProductFacade productFacade;
+    private final ProductService productService;
 
     @GetMapping
     public ResponseEntity<Page<ProductDtoResponse>> getAll(Pageable pageable) {
@@ -51,4 +55,23 @@ public class ProductController {
             Pageable pageable) {
         return new ResponseEntity<>(productFacade.getAllByFilterDtoRequest(productDtoFilterRequest, pageable), HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<ProductDtoResponse> create(@RequestBody @Valid ProductDtoCreateRequest productDtoCreateRequest) {
+        return new ResponseEntity<>(productFacade.create(productDtoCreateRequest), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductDtoResponse> update(
+            @PathVariable @NotNull(message = "Id cannot be null") Long id,
+            @RequestBody @Valid ProductDtoUpdateRequest productDtoUpdateRequest) {
+        return new ResponseEntity<>(productFacade.update(id, productDtoUpdateRequest), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
+        productService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }

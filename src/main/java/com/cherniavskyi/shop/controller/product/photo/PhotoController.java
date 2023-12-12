@@ -1,10 +1,10 @@
 package com.cherniavskyi.shop.controller.product.photo;
 
-import com.cherniavskyi.shop.dto.response.product.photo.CreatePhotoDtoResponse;
+import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
 import com.cherniavskyi.shop.facade.product.photo.PhotoFacade;
 import com.cherniavskyi.shop.service.product.photo.PhotoService;
 import com.cherniavskyi.shop.validation.ValidMultipartFile;
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -27,19 +27,21 @@ public class PhotoController {
     private final PhotoService photoService;
 
     @PostMapping
-    public ResponseEntity<CreatePhotoDtoResponse> create(
-            @RequestParam("photo")
-            @ValidMultipartFile MultipartFile file) {
-        return new ResponseEntity<>(photoFacade.create(file), HttpStatus.OK);
+    public ResponseEntity<PhotoDtoResponse> create(
+            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
+            @RequestParam("photo") @ValidMultipartFile MultipartFile file) {
+        return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.OK);
     }
 
     @PostMapping("/photos")
-    public ResponseEntity<Set<CreatePhotoDtoResponse>> createPhotos(@RequestParam("photos") MultipartFile[] files) {
-        return new ResponseEntity<>(photoFacade.createPhotos(files), HttpStatus.OK);
+    public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(
+            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
+            @RequestParam("photos") MultipartFile[] files) {
+        return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Resource> download(@PathVariable @Valid UUID id) {
+    public ResponseEntity<Resource> download(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
         var resourceDto = photoFacade.download(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
@@ -48,7 +50,7 @@ public class PhotoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable @Valid UUID id) {
+    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
         photoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -27,8 +27,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "id")
+    @OneToMany(mappedBy = "product")
     private Set<Photo> photos;
 
     @Column(name = "price", nullable = false)
