@@ -17,4 +17,5 @@ public interface FileMapper {
     PhotoDtoResponse mapTo(Photo photo);
 
     PhotoDtoRelation mapTo(Long productId);
+
 }
