@@ -55,7 +55,7 @@ public class PhotoServiceImpl implements PhotoService {
                 .flatMap(photo -> Arrays.stream(photo.getUrl().split("/"))
                         .reduce((first, second) -> second))
                 .map(fileStorageService::download)
-                .orElseThrow();
+                .orElseThrow();//TODO I should add throw
     }
 
     @Override

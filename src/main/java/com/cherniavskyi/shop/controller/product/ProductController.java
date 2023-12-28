@@ -36,7 +36,7 @@ public class ProductController {
         return new ResponseEntity<>(productFacade.read(id), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<Page<ProductDtoResponse>> searchByName(@RequestBody @Valid ProductDtoSearchRequest productDtoSearchRequest,
                                                                  Pageable pageable) {
         return new ResponseEntity<>(productFacade.searchByProductDtoSearch(productDtoSearchRequest, pageable), HttpStatus.OK);
@@ -49,7 +49,7 @@ public class ProductController {
         return new ResponseEntity<>(productFacade.getAllByCategoryId(id, pageable), HttpStatus.OK);
     }
 
-    @GetMapping("/filter")
+    @PostMapping("/filter")
     public ResponseEntity<Page<ProductDtoResponse>> getAllByFilterDtoRequest(
             @RequestBody @Valid ProductDtoFilterRequest productDtoFilterRequest,
             Pageable pageable) {

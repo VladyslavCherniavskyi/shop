@@ -2,7 +2,7 @@ package com.cherniavskyi.shop.service.order.impl;
 
 import com.cherniavskyi.shop.entity.order.Order;
 import com.cherniavskyi.shop.entity.order.OrderStatus;
-import com.cherniavskyi.shop.entity.user.Customer;
+import com.cherniavskyi.shop.entity.user.customer.Customer;
 import com.cherniavskyi.shop.repository.order.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;

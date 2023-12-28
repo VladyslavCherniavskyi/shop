@@ -3,7 +3,7 @@ package com.cherniavskyi.shop.mapper;
 import com.cherniavskyi.shop.dto.request.user.CustomerDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.user.CustomerDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.user.CustomerDtoResponse;
-import com.cherniavskyi.shop.entity.user.Customer;
+import com.cherniavskyi.shop.entity.user.customer.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

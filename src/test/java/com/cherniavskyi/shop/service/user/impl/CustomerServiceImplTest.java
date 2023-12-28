@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.service.user.impl;
 
-import com.cherniavskyi.shop.entity.user.Customer;
+import com.cherniavskyi.shop.entity.user.customer.Customer;
 import com.cherniavskyi.shop.repository.user.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;

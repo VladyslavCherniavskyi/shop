@@ -1,4 +1,4 @@
-package com.cherniavskyi.shop.entity.user;
+package com.cherniavskyi.shop.entity.user.customer;
 
 import com.cherniavskyi.shop.entity.order.Order;
 import jakarta.persistence.*;
