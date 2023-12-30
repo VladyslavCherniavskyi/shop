@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.entity.order;
 
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +35,6 @@ public class Order {
     private OrderStatus orderStatus;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 }

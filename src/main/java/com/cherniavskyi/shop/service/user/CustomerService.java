@@ -1,14 +1,14 @@
 package com.cherniavskyi.shop.service.user;
 
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
 
 public interface CustomerService {
 
-    Customer create(Customer customer);
+    CustomerDetail create(CustomerDetail customerDetail);
 
-    Customer read(Long id);
+    CustomerDetail read(Long id);
 
-    Customer update(Customer customer);
+    CustomerDetail update(CustomerDetail customerDetail);
 
     void delete(Long id);
 }

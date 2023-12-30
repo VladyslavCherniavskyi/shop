@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query("SELECT o FROM Order o WHERE o.customer.id = :customerId")
-    Page<Order> findAllByCustomerId(@Param("customerId") Long id, Pageable pageable);
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId")
+    Page<Order> findAllByCustomerId(@Param("userId") Long id, Pageable pageable);
 }

@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.service.user.impl;
 
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
 import com.cherniavskyi.shop.repository.user.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -10,24 +10,25 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Date;
 import java.util.Optional;
 
 @SpringBootTest
-class CustomerServiceImplTest {
+class CustomerDetailServiceImplTest {
 
     @Mock
     private CustomerRepository customerRepository;
     @Mock
-    private Customer customer;
+    private CustomerDetail customerDetail;
     @InjectMocks
     private CustomerServiceImpl customerService;
 
     @Test
     void create() {
         //given
-        var newCustomer = new Customer();
+        var newCustomer = new CustomerDetail();
 
-        Mockito.doReturn(customer)
+        Mockito.doReturn(customerDetail)
                 .when(customerRepository)
                 .save(newCustomer);
 
@@ -35,7 +36,7 @@ class CustomerServiceImplTest {
         var actual = customerService.create(newCustomer);
 
         //then
-        Assertions.assertEquals(customer, actual);
+        Assertions.assertEquals(customerDetail, actual);
         Assertions.assertNotNull(actual);
     }
 
@@ -44,7 +45,7 @@ class CustomerServiceImplTest {
         //given
         var id = 1L;
 
-        Mockito.doReturn(Optional.of(customer))
+        Mockito.doReturn(Optional.of(customerDetail))
                 .when(customerRepository)
                 .findById(id);
 
@@ -52,7 +53,7 @@ class CustomerServiceImplTest {
         var actual = customerService.read(id);
 
         //then
-        Assertions.assertEquals(customer, actual);
+        Assertions.assertEquals(customerDetail, actual);
         Assertions.assertNotNull(actual);
     }
 
@@ -68,24 +69,25 @@ class CustomerServiceImplTest {
     @Test
     void update() {
         //given
-        var newCustomer = new Customer();
-        newCustomer.setFirstName("firstName");
+        var createAccountDate = new Date(1);
+        var newCustomer = new CustomerDetail();
+        newCustomer.setCreateAccount(createAccountDate);
 
-        Mockito.doReturn(Optional.of(customer))
+        Mockito.doReturn(Optional.of(customerDetail))
                 .when(customerRepository)
-                .findById(newCustomer.getId());
+                .findById(newCustomer.getUserId());
 
-        Mockito.doReturn(customer)
+        Mockito.doReturn(customerDetail)
                 .when(customerRepository)
                 .save(newCustomer);
 
-        customer.setFirstName("firstName");
+        customerDetail.setCreateAccount(createAccountDate);
 
         //when
         var actual = customerService.update(newCustomer);
 
         //then
-        Assertions.assertEquals(customer, actual);
+        Assertions.assertEquals(customerDetail, actual);
     }
 
     @Test
@@ -93,18 +95,18 @@ class CustomerServiceImplTest {
         //giver
         var id = 1L;
 
-        Mockito.doReturn(Optional.of(customer))
+        Mockito.doReturn(Optional.of(customerDetail))
                 .when(customerRepository)
                 .findById(id);
 
         Mockito.doNothing()
                 .when(customerRepository)
-                .delete(customer);
+                .delete(customerDetail);
 
         //when
         customerService.delete(id);
 
         //then
-        Mockito.verify(customerRepository).delete(customer);
+        Mockito.verify(customerRepository).delete(customerDetail);
     }
 }

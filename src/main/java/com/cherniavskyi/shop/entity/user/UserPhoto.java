@@ -1,6 +1,5 @@
 package com.cherniavskyi.shop.entity.user;
 
-import com.cherniavskyi.shop.entity.user.employee.Employee;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,8 +30,8 @@ public class UserPhoto {
     @Column(name = "size", nullable = false)
     private Long size;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
+    private User user;
 
 }

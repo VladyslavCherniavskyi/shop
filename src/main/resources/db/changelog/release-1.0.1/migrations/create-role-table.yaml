@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-role
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: INTEGER
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role_name
+                  type: VARCHAR(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+
+  - changeSet:
+      id: add-role-sequence
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createSequence:
+            sequenceName: role_id_seq

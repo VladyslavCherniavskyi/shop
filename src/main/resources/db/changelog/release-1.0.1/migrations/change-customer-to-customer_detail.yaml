@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-customer-to-customer_detail
+      author: Vladyslav Cherniavskyi
+
+  - changeSet:
+      id: rename-table-and-drop-columns
+      author: Vladyslav Cherniavskyi
+      changes:
+        - dropColumn:
+            columnName: first_name
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: last_name
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: email
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: phone
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: address
+            tableName: customer
+            schemaName: shop
+        - renameTable:
+            oldTableName: customer
+            newTableName: customer_detail
+            schemaName: shop
+
+  - changeSet:
+      id: add-user-id-and-create-account
+      author: Vladyslav Cherniavskyi
+      changes:
+        - addColumn:
+            tableName: customer_detail
+            schemaName: shop
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: customer_detail
+            schemaName: shop
+            columns:
+              - column:
+                  name: create_account
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+                    defaultValue: 'CURRENT_TIMESTAMP'
+
+        - dropSequence:
+            sequenceName: customer_id_seq

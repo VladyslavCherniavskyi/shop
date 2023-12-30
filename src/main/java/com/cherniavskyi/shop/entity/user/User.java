@@ -1,8 +1,11 @@
 package com.cherniavskyi.shop.entity.user;
 
+import com.cherniavskyi.shop.entity.order.Order;
+import com.cherniavskyi.shop.entity.user.employee.EmployeeDetail;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -10,18 +13,39 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@IdClass(UserId.class)
 @Entity
 @Table(name = "user", schema = "shop")
 public class User {
 
     @Id
+    @SequenceGenerator(name = "user_generator", sequenceName = "user_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
     private Long id;
 
-    @Id
+    @Column(name = "first_name", nullable = false, length = 50)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false, length = 50)
+    private String lastName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
+    private UserGender gender;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date_of_birth")
+    private Date dateOfBirth;
+
+    @Column(name = "address", nullable = false, columnDefinition = "TEXT")
+    private String address;
+
+    @Column(name = "phone", nullable = false, length = 15)
+    private String phone;
+
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "password_hash", nullable = false)
+    @Column(name = "password_hash")
     private String passwordHash;
 
     @ManyToMany
@@ -31,5 +55,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private UserPhoto photo;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Order> orders;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private EmployeeDetail employeeDetail;
 
 }

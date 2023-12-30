@@ -3,7 +3,7 @@ package com.cherniavskyi.shop.mapper;
 import com.cherniavskyi.shop.dto.request.user.CustomerDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.user.CustomerDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.user.CustomerDtoResponse;
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -13,10 +13,10 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface UserMapper {
 
-    CustomerDtoResponse mapTo(Customer customer);
+    CustomerDtoResponse mapTo(CustomerDetail customerDetail);
 
-    Customer mapFrom(CustomerDtoCreateRequest customerDtoCreateRequest);
+    CustomerDetail mapFrom(CustomerDtoCreateRequest customerDtoCreateRequest);
 
-    Customer mapFrom(CustomerDtoUpdateRequest customerDtoUpdateRequest);
+    CustomerDetail mapFrom(CustomerDtoUpdateRequest customerDtoUpdateRequest);
 
 }

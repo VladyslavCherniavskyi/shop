@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-order-customer_id-to_user_id
+      author: Vladyslav Cherniavskyi
+      changes:
+        - renameColumn:
+            schemaName: shop
+            tableName: order
+            oldColumnName: customer_id
+            newColumnName: user_id
+
+        - dropForeignKeyConstraint:
+            baseTableName: order
+            constraintName: fk_order_customer_id
+
+        - addForeignKeyConstraint:
+            baseTableName: order
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            constraintName: fk_order_user_id

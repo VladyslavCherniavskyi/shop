@@ -30,7 +30,7 @@ public class CustomerFacade {
 
     public CustomerDtoResponse update(Long id, CustomerDtoUpdateRequest customerDtoUpdateRequest) {
         var customer = userMapper.mapFrom(customerDtoUpdateRequest);
-        customer.setId(id);
+        customer.setUserId(id);
         var updatedCustomer = customerService.update(customer);
         return userMapper.mapTo(updatedCustomer);
     }

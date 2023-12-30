@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user_photo
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: user_photo
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: url
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: size
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+                    unique: true
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_photo
+            constraintName: fk_user_photo_user_id
+            referencedColumnNames: id
+            referencedTableName: user

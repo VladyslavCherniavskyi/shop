@@ -1,6 +1,6 @@
 package com.cherniavskyi.shop.service.user.impl;
 
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
 import com.cherniavskyi.shop.repository.user.CustomerRepository;
 import com.cherniavskyi.shop.service.user.CustomerService;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,12 +16,12 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public Customer create(Customer customer) {
-        return customerRepository.save(customer);
+    public CustomerDetail create(CustomerDetail customerDetail) {
+        return customerRepository.save(customerDetail);
     }
 
     @Override
-    public Customer read(Long id) {
+    public CustomerDetail read(Long id) {
         return customerRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Customer with id:%s is not found", id)
@@ -30,9 +30,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer update(Customer customer) {
-        read(customer.getId());
-        return customerRepository.save(customer);
+    public CustomerDetail update(CustomerDetail customerDetail) {
+        read(customerDetail.getUserId());
+        return customerRepository.save(customerDetail);
     }
 
     @Override

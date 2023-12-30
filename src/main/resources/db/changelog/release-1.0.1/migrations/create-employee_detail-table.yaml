@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-employee_detail
+      author: Vladyslav Cherniavskyi
+      changes:
+        - createTable:
+            schemaName: shop
+            tableName: employee_detail
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: position
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salary
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: hire_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: employee_detail
+            constraintName: fk_user_employee_detail_user_id
+            referencedColumnNames: id
+            referencedTableName: user

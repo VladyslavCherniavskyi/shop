@@ -2,7 +2,7 @@ package com.cherniavskyi.shop.service.order.impl;
 
 import com.cherniavskyi.shop.entity.order.Order;
 import com.cherniavskyi.shop.entity.order.OrderStatus;
-import com.cherniavskyi.shop.entity.user.customer.Customer;
+import com.cherniavskyi.shop.entity.user.User;
 import com.cherniavskyi.shop.repository.order.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -76,7 +76,7 @@ class OrderServiceImplTest {
         //given
         var newOrder = new Order();
         newOrder.setOrderStatus(OrderStatus.CREATED);
-        newOrder.setCustomer(new Customer());
+        newOrder.setUser(new User());
 
 
         Mockito.doReturn(Optional.of(order))

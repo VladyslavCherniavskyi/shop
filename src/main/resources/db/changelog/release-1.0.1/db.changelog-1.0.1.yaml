@@ -21,3 +21,17 @@ databaseChangeLog:
       file: db/changelog/release-1.0.1/migrations/drop-column-reference-image.yaml
   - include:
       file: db/changelog/release-1.0.1/migrations/create-photo-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-user-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/change-customer-to-customer_detail.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-employee_detail-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-role-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-user_photo-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/create-user_role-table.yaml
+  - include:
+      file: db/changelog/release-1.0.1/migrations/change-order-customer_id-to_user_id.yaml
