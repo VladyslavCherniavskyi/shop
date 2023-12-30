@@ -4,7 +4,7 @@ databaseChangeLog:
       author: Vladyslav Cherniavskyi
 
   - changeSet:
-      id: rename-table-and-drop-columns
+      id: rename-table-column-and-drop-columns
       author: Vladyslav Cherniavskyi
       changes:
         - dropColumn:
@@ -31,20 +31,16 @@ databaseChangeLog:
             oldTableName: customer
             newTableName: customer_detail
             schemaName: shop
+        - renameColumn:
+            schemaName: shop
+            tableName: customer_detail
+            oldColumnName: id
+            newColumnName: user_id
 
   - changeSet:
-      id: add-user-id-and-create-account
+      id: add-create-account
       author: Vladyslav Cherniavskyi
       changes:
-        - addColumn:
-            tableName: customer_detail
-            schemaName: shop
-            columns:
-              - column:
-                  name: user_id
-                  type: BIGINT
-                  constraints:
-                    nullable: false
         - addColumn:
             tableName: customer_detail
             schemaName: shop
@@ -55,6 +51,13 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     defaultValue: 'CURRENT_TIMESTAMP'
+
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: customer_detail
+            constraintName: fk_user_customer_detail_user_id
+            referencedColumnNames: id
+            referencedTableName: user
 
         - dropSequence:
             sequenceName: customer_id_seq

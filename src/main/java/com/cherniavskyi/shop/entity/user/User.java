@@ -1,6 +1,7 @@
 package com.cherniavskyi.shop.entity.user;
 
 import com.cherniavskyi.shop.entity.order.Order;
+import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
 import com.cherniavskyi.shop.entity.user.employee.EmployeeDetail;
 import jakarta.persistence.*;
 import lombok.*;
@@ -66,4 +67,7 @@ public class User {
     @PrimaryKeyJoinColumn
     private EmployeeDetail employeeDetail;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private CustomerDetail customerDetail;
 }
