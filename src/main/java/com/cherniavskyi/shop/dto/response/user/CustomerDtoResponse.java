@@ -1,11 +1,10 @@
 package com.cherniavskyi.shop.dto.response.user;
 
+import java.util.Date;
+
 public record CustomerDtoResponse(
-        Long id,
-        String firstName,
-        String lastName,
-        String email,
-        String phone,
-        String address
+
+        UserDtoResponse userDtoResponse,
+        Date createAccount
 ) {
 }

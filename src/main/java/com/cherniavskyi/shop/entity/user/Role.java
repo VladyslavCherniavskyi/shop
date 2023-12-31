@@ -19,10 +19,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_generator")
     private Integer id;
 
-    @Column(name = "role_name", unique = true, nullable = false)
-    private String roleName;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", unique = true, nullable = false)
+    private UserRole name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<User> users;
 
 }

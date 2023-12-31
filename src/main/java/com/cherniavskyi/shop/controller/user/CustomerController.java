@@ -1,7 +1,7 @@
 package com.cherniavskyi.shop.controller.user;
 
-import com.cherniavskyi.shop.dto.request.user.CustomerDtoCreateRequest;
-import com.cherniavskyi.shop.dto.request.user.CustomerDtoUpdateRequest;
+import com.cherniavskyi.shop.dto.request.user.create.CustomerDtoCreateRequest;
+import com.cherniavskyi.shop.dto.request.user.update.CustomerDtoUpdateRequest;
 import com.cherniavskyi.shop.dto.response.user.CustomerDtoResponse;
 import com.cherniavskyi.shop.facade.user.CustomerFacade;
 import com.cherniavskyi.shop.service.user.CustomerService;
@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/customers")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
 public class CustomerController {
 
     private final CustomerFacade customerFacade;

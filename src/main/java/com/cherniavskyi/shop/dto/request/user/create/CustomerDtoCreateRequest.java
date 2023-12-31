@@ -1,10 +1,10 @@
-package com.cherniavskyi.shop.dto.request.user;
+package com.cherniavskyi.shop.dto.request.user.create;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-public record CustomerDtoUpdateRequest(
+public record CustomerDtoCreateRequest(
 
         @NotBlank(message = "FirstName cannot be empty")
         String firstName,

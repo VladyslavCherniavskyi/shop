@@ -41,9 +41,12 @@ databaseChangeLog:
                   type: VARCHAR(15)
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: email
                   type: VARCHAR(255)
+                  constraints:
+                    unique: true
               - column:
                   name: password_hash
                   type: VARCHAR(255)
