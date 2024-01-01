@@ -1,6 +1,7 @@
 package com.cherniavskyi.shop.service.user.impl;
 
 import com.cherniavskyi.shop.entity.user.Role;
+import com.cherniavskyi.shop.entity.user.UserRole;
 import com.cherniavskyi.shop.repository.user.RoleRepository;
 import com.cherniavskyi.shop.service.user.RoleService;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +27,15 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Role with id:%s is not found", id)
+                )
+        );
+    }
+
+    @Override
+    public Role read(UserRole role) {
+        return roleRepository.findByName(role).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("Role with name:%s is not found", role.name())
                 )
         );
     }

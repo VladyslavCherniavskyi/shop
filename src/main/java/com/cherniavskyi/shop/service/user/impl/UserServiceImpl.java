@@ -4,6 +4,7 @@ import com.cherniavskyi.shop.entity.user.User;
 import com.cherniavskyi.shop.repository.user.UserRepository;
 import com.cherniavskyi.shop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        verificationExists(user);
         return userRepository.save(user);
     }
 
@@ -29,11 +31,19 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    @Override
-    public User read(String email) {
+    public User readByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("User with email:%s is not found", email)
+                )
+        );
+    }
+
+    @Override
+    public User readByPhone(String phone) {
+        return userRepository.findByPhone(phone).orElseThrow(
+                () -> new EntityNotFoundException(
+                        String.format("User with phone:%s is not found", phone)
                 )
         );
     }
@@ -44,4 +54,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    private void verificationExists(User user) {
+        var existsByPhone = userRepository.existsByPhone(user.getPhone());
+        if (existsByPhone) {
+            throw new ValidationException(String.format("User with phone:%s already exists", user.getPhone()));
+        }
+        var existsByEmail = userRepository.existsByEmail(user.getEmail());
+        if (existsByEmail) {
+            throw new ValidationException(String.format("User with email:%s already exists", user.getEmail()));
+        }
+    }
 }

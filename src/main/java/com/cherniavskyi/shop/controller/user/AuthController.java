@@ -27,8 +27,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthDtoResponse> register(@RequestBody CustomerRegisterDtoRequest customerRegisterDtoRequest) {
-        return ResponseEntity.ok(authFacade.register(customerRegisterDtoRequest));
+    public ResponseEntity<AuthDtoResponse> registerCustomer(@RequestBody @Valid CustomerRegisterDtoRequest customerRegisterDtoRequest) {
+        return ResponseEntity.ok(authFacade.registerCustomer(customerRegisterDtoRequest));
     }
 
 }

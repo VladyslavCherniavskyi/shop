@@ -8,7 +8,9 @@ public interface UserService {
 
     User read(Long id);
 
-    User read(String email);
+    User readByEmail(String email);
+
+    User readByPhone(String phone);
 
     User update(User user);
 

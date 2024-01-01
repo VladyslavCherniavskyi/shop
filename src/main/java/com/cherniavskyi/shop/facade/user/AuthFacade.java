@@ -4,6 +4,7 @@ import com.cherniavskyi.shop.dto.request.user.login.UserLoginDtoRequest;
 import com.cherniavskyi.shop.dto.request.user.register.CustomerRegisterDtoRequest;
 import com.cherniavskyi.shop.dto.request.user.register.EmployeeRegisterDtoRequest;
 import com.cherniavskyi.shop.dto.response.user.AuthDtoResponse;
+import com.cherniavskyi.shop.entity.user.UserRole;
 import com.cherniavskyi.shop.mapper.UserMapper;
 import com.cherniavskyi.shop.security.UserDetailsImpl;
 import com.cherniavskyi.shop.security.service.JwtService;
@@ -20,7 +21,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Transactional
@@ -54,12 +57,15 @@ public class AuthFacade {
         );
     }
 
-    public AuthDtoResponse register(CustomerRegisterDtoRequest customerRegisterDtoRequest) {
+    public AuthDtoResponse registerCustomer(CustomerRegisterDtoRequest customerRegisterDtoRequest) {
         //validation
         credentialValidation.userGender(customerRegisterDtoRequest.userDtoCreateRequest().gender());
+        if (Objects.nonNull(customerRegisterDtoRequest.userDtoCreateRequest().dateOfBirth())) {
+            credentialValidation.dateOfBirthForCustomer(customerRegisterDtoRequest.userDtoCreateRequest().dateOfBirth());
+        }
 
-        var roles = customerRegisterDtoRequest.userDtoCreateRequest().roleIds().stream()
-                .map(roleService::read)//TODO should change to default role CUSTOMER
+        var roles = Stream.of(UserRole.CUSTOMER)
+                .map(roleService::read)
                 .collect(Collectors.toSet());
 
         var rawPassword = passwordValidation.matcher(

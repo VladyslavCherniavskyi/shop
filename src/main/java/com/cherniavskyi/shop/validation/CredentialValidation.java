@@ -2,69 +2,69 @@ package com.cherniavskyi.shop.validation;
 
 import com.cherniavskyi.shop.entity.user.UserGender;
 import com.cherniavskyi.shop.util.TimeUtils;
+import io.vavr.control.Try;
 import jakarta.validation.ValidationException;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 public class CredentialValidation {
 
     public String userGender(UserGender userGender) {
-        return Optional.ofNullable(Arrays.stream(UserGender.values())
+        return Try.of(() -> Arrays.stream(UserGender.values())
                         .filter(gender -> Objects.equals(gender, userGender))
                         .map(Enum::name)
                         .collect(Collectors.joining()))
-                .orElseThrow(
-                        () -> new ValidationException(
+                .recover(IllegalArgumentException.class,
+                        e -> handleError(
                                 String.format(
-                                        "Gender: %s is invalid", userGender
+                                        "Gender: %s is invalid. Error: %s", userGender, e.getMessage()
                                 )
                         )
-                );
+                ).get();
+
     }
 
     public Date dateOfBirthForCustomer(Date dateOfBirth) {
-        var limitYears = 14;
+        return dataLimiteValidate(dateOfBirth, 14);
+    }
+
+    public Date dateOfBirthForEmployee(Date dateOfBirth) {
+        return dataLimiteValidate(dateOfBirth, 18);
+    }
+
+    private Date dataLimiteValidate(@NotNull(message = "Data cannot be null") Date date, int limitYears) {
+        var now = LocalDate.now();
 
         Period period = Period.between(
-                toLocalDate(dateOfBirth),
-                LocalDate.now()
+                toLocalDate(date),
+                now
         );
-        var date14YearsAgo = period.minusYears(limitYears).normalized();
+        var startDateUnLimit = now.minus(Period.ofYears(limitYears));
 
-        if (period.minusYears(limitYears).isNegative()) {
+        if (period.minusYears(limitYears).isNegative() || period.minusYears(limitYears).isZero()) {
             throw new ValidationException(
                     String.format(
-                            "DataOfBirth: %s is invalid. Data should be more then: %s ",
-                            TimeUtils.formatter(dateOfBirth), date14YearsAgo
+                            "DataOfBirth: %s is invalid. Data should be equal to or more than: %s ",
+                            TimeUtils.formatter(date), startDateUnLimit
                     )
             );
         }
-        return dateOfBirth;
+        return date;
     }
 
     private LocalDate toLocalDate(Date date) {
-        return date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
+        return date.toInstant().atZone(TimeUtils.UTC.toZoneId()).toLocalDate();
     }
 
-    public static void main(String[] args) {
-        var c = new CredentialValidation();
-        var now = new Date();
-
-        @Deprecated
-        var bd = new Date(110, Calendar.MARCH, 03);
-        var bdLocal = LocalDate.of(2003, 12, 31);
-        var year = now.before(bd);
-        System.out.println(
-                c.dateOfBirthForCustomer(bd)
-        );
-        System.out.println(year);
-
-
+    private String handleError(String errorMessage) {
+        throw new ValidationException(errorMessage);
     }
-
 }

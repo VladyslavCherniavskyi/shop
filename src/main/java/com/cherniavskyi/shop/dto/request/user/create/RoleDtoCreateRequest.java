@@ -1,11 +1,11 @@
 package com.cherniavskyi.shop.dto.request.user.create;
 
 import com.cherniavskyi.shop.entity.user.UserRole;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record RoleDtoCreateRequest(
 
-        @NotBlank(message = "Name cannot be empty")
+        @NotNull(message = "Name cannot be null")
         UserRole name
 
 ) {
