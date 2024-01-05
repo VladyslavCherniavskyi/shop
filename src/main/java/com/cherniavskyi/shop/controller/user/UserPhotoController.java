@@ -1,8 +1,8 @@
-package com.cherniavskyi.shop.controller.product.photo;
+package com.cherniavskyi.shop.controller.user;
 
-import com.cherniavskyi.shop.dto.response.product.photo.PhotoDtoResponse;
-import com.cherniavskyi.shop.facade.product.photo.PhotoFacade;
-import com.cherniavskyi.shop.service.product.photo.PhotoService;
+import com.cherniavskyi.shop.dto.response.user.UserPhotoDtoResponse;
+import com.cherniavskyi.shop.facade.user.UserPhotoFacade;
+import com.cherniavskyi.shop.service.user.UserPhotoService;
 import com.cherniavskyi.shop.validation.ValidMultipartFile;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -15,37 +15,28 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/photos")
+@RequestMapping("/user_photos")
 @RequiredArgsConstructor
 @Validated
-@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
-public class PhotoController {
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
+public class UserPhotoController {
 
-    private final PhotoFacade photoFacade;
-    private final PhotoService photoService;
+    private final UserPhotoFacade userPhotoFacade;
+    private final UserPhotoService userPhotoService;
 
     @PostMapping
-    public ResponseEntity<PhotoDtoResponse> create(
-            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
+    public ResponseEntity<UserPhotoDtoResponse> create(
+            @RequestParam("userId") @NotNull(message = "UserId cannot be null") Long userId,
             @RequestParam("photo") @ValidMultipartFile MultipartFile file) {
-        return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.OK);
+        return new ResponseEntity<>(userPhotoFacade.create(userId, file), HttpStatus.OK);
     }
 
-    @PostMapping("/photos")
-    public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(
-            @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
-            @RequestParam("photos") MultipartFile[] files) {
-        return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<Resource> download(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
-        var resourceDto = photoFacade.download(id);
+        var resourceDto = userPhotoFacade.download(id);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename= " + resourceDto.photoName())
@@ -54,7 +45,7 @@ public class PhotoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
-        photoService.delete(id);
+        userPhotoService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

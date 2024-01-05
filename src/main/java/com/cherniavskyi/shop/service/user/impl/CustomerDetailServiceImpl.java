@@ -1,8 +1,8 @@
 package com.cherniavskyi.shop.service.user.impl;
 
 import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
-import com.cherniavskyi.shop.repository.user.CustomerRepository;
-import com.cherniavskyi.shop.service.user.CustomerService;
+import com.cherniavskyi.shop.repository.user.CustomerDetailRepository;
+import com.cherniavskyi.shop.service.user.CustomerDetailService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,18 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CustomerServiceImpl implements CustomerService {
+public class CustomerDetailServiceImpl implements CustomerDetailService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerDetailRepository customerDetailRepository;
 
     @Override
     public CustomerDetail create(CustomerDetail customerDetail) {
-        return customerRepository.save(customerDetail);
+        return customerDetailRepository.save(customerDetail);
     }
 
     @Override
     public CustomerDetail read(Long id) {
-        return customerRepository.findById(id).orElseThrow(
+        return customerDetailRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Customer with id:%s is not found", id)
                 )
@@ -32,12 +32,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDetail update(CustomerDetail customerDetail) {
         read(customerDetail.getUserId());
-        return customerRepository.save(customerDetail);
+        return customerDetailRepository.save(customerDetail);
     }
 
     @Override
     public void delete(Long id) {
         var customer = read(id);
-        customerRepository.delete(customer);
+        customerDetailRepository.delete(customer);
     }
 }

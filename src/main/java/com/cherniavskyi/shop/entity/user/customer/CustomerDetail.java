@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -13,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "customer_detail", schema = "shop")
+@EntityListeners(AuditingEntityListener.class)
 public class CustomerDetail {
 
     @Id
@@ -24,7 +27,8 @@ public class CustomerDetail {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "create_account")
+    @CreatedDate
+    @Column(name = "create_account", nullable = false, updatable = false)
     private Date createAccount;
 
 }

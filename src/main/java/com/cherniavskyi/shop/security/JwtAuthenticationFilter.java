@@ -22,6 +22,8 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer ";
     private final JwtService jwtService;
     private final UserDetailsService userDetailsServiceImpl;
 
@@ -43,8 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean hasAuthorizationBearer(HttpServletRequest request) {
-        var header = request.getHeader("Authorization");
-        return !ObjectUtils.isEmpty(header) && header.startsWith("Bearer ");
+        var header = request.getHeader(AUTHORIZATION);
+        return !ObjectUtils.isEmpty(header) && header.startsWith(BEARER);
     }
 
     private void setAuthenticationContext(String token, HttpServletRequest request) {

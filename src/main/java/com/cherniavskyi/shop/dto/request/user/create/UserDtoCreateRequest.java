@@ -1,6 +1,7 @@
 package com.cherniavskyi.shop.dto.request.user.create;
 
 import com.cherniavskyi.shop.entity.user.UserGender;
+import com.cherniavskyi.shop.validation.ValidPassword;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,18 +36,10 @@ public record UserDtoCreateRequest(
         @Email(message = "Invalid email format. Please provide a valid email address.")
         String email,
 
-        @NotBlank(message = "Password cannot be empty")
-        @Pattern(
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-                message = "Password is invalid "
-        )
+        @ValidPassword(message = "Please provide a valid password")
         String password,
 
-        @NotBlank(message = "RepeatPassword cannot be empty")
-        @Pattern(
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-                message = "Password is invalid "
-        )
+        @ValidPassword(message = "Please provide a valid password")
         String repeatPassword
 
 ) {

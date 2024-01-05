@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Validated
-@PreAuthorize("hasRole('ADMIN') or hasRole('CUSTOMER')")
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
 public class UserController {
 
     private final UserFacade userFacade;
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER') and @securityChecker.isIdMatch(#id)")
     @PatchMapping("/{id}")
     public ResponseEntity<String> patchPassword(@PathVariable @Valid Long id,
                                                 @RequestBody @Valid UserDtoPathPasswordRequest userDtoPathPasswordRequest) {

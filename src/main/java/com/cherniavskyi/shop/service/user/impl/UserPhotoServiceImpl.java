@@ -1,11 +1,11 @@
-package com.cherniavskyi.shop.service.product.photo.impl;
+package com.cherniavskyi.shop.service.user.impl;
 
 import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
-import com.cherniavskyi.shop.entity.product.photo.Photo;
-import com.cherniavskyi.shop.repository.product.photo.PhotoRepository;
+import com.cherniavskyi.shop.entity.user.UserPhoto;
+import com.cherniavskyi.shop.repository.user.UserPhotoRepository;
 import com.cherniavskyi.shop.service.file.FileStorageService;
-import com.cherniavskyi.shop.service.product.ProductService;
-import com.cherniavskyi.shop.service.product.photo.PhotoService;
+import com.cherniavskyi.shop.service.user.UserPhotoService;
+import com.cherniavskyi.shop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -20,29 +20,29 @@ import java.util.UUID;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class PhotoServiceImpl implements PhotoService {
+public class UserPhotoServiceImpl implements UserPhotoService {
 
-    private final PhotoRepository photoRepository;
-    private final ProductService productService;
+    private final UserService userService;
+    private final UserPhotoRepository userPhotoRepository;
     private final FileStorageService fileStorageService;
 
     @Override
-    public Photo create(PhotoDtoRelation photoDtoRelation, MultipartFile file) {
-        var product = productService.read(photoDtoRelation.productId());
+    public UserPhoto create(PhotoDtoRelation photoDtoRelation, MultipartFile file) {
+        var user = userService.read(photoDtoRelation.userId());
         var uploadedFile = fileStorageService.upload(file);
-        var photo = Photo.builder()
+        var photo = UserPhoto.builder()
                 .name(file.getOriginalFilename())
                 .url(uploadedFile.toString())
                 .type(file.getContentType())
                 .size(file.getSize())
-                .product(product)
+                .user(user)
                 .build();
-        return photoRepository.save(photo);
+        return userPhotoRepository.save(photo);
     }
 
     @Override
-    public Photo read(UUID id) {
-        return photoRepository.findById(id).orElseThrow(
+    public UserPhoto read(UUID id) {
+        return userPhotoRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("Photo with id:%s is not found", id)
                 )
@@ -69,7 +69,7 @@ public class PhotoServiceImpl implements PhotoService {
                         .reduce((first, second) -> second)
                         .ifPresent(name -> {
                             fileStorageService.delete(name);
-                            photoRepository.delete(photo);
+                            userPhotoRepository.delete(photo);
                         })
                 );
     }

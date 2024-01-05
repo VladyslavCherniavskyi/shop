@@ -1,15 +1,18 @@
 package com.cherniavskyi.shop.facade.user;
 
+import com.cherniavskyi.shop.dto.request.user.create.UserDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.user.login.UserLoginDtoRequest;
 import com.cherniavskyi.shop.dto.request.user.register.CustomerRegisterDtoRequest;
 import com.cherniavskyi.shop.dto.request.user.register.EmployeeRegisterDtoRequest;
 import com.cherniavskyi.shop.dto.response.user.AuthDtoResponse;
+import com.cherniavskyi.shop.entity.user.User;
 import com.cherniavskyi.shop.entity.user.UserRole;
 import com.cherniavskyi.shop.mapper.UserMapper;
 import com.cherniavskyi.shop.security.UserDetailsImpl;
 import com.cherniavskyi.shop.security.service.JwtService;
 import com.cherniavskyi.shop.security.service.impl.PasswordService;
-import com.cherniavskyi.shop.service.user.CustomerService;
+import com.cherniavskyi.shop.service.user.CustomerDetailService;
+import com.cherniavskyi.shop.service.user.EmployeeDetailService;
 import com.cherniavskyi.shop.service.user.RoleService;
 import com.cherniavskyi.shop.service.user.UserService;
 import com.cherniavskyi.shop.validation.CredentialValidation;
@@ -20,7 +23,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -35,8 +37,8 @@ public class AuthFacade {
     private final PasswordService passwordService;
     private final UserService userService;
     private final RoleService roleService;
-    private final CustomerService customerService;
-    //    private final EmployeeService employeeService;
+    private final CustomerDetailService customerDetailService;
+    private final EmployeeDetailService employeeDetailService;
     private final UserMapper userMapper;
     private final PasswordValidation passwordValidation;
     private final CredentialValidation credentialValidation;
@@ -58,41 +60,64 @@ public class AuthFacade {
     }
 
     public AuthDtoResponse registerCustomer(CustomerRegisterDtoRequest customerRegisterDtoRequest) {
-        //validation
         credentialValidation.userGender(customerRegisterDtoRequest.userDtoCreateRequest().gender());
-        if (Objects.nonNull(customerRegisterDtoRequest.userDtoCreateRequest().dateOfBirth())) {
-            credentialValidation.dateOfBirthForCustomer(customerRegisterDtoRequest.userDtoCreateRequest().dateOfBirth());
+        var dataOfBirth = customerRegisterDtoRequest.userDtoCreateRequest().dateOfBirth();
+
+        if (Objects.nonNull(dataOfBirth)) {
+            credentialValidation.dateOfBirthForCustomer(dataOfBirth);
         }
 
         var roles = Stream.of(UserRole.CUSTOMER)
                 .map(roleService::read)
                 .collect(Collectors.toSet());
 
-        var rawPassword = passwordValidation.matcher(
-                customerRegisterDtoRequest.userDtoCreateRequest().password(),
-                customerRegisterDtoRequest.userDtoCreateRequest().repeatPassword()
-        );
-
-        //mapping
-        var customerDetail = userMapper.mapFrom(customerRegisterDtoRequest);
-        var user = userMapper.mapFrom(customerRegisterDtoRequest.userDtoCreateRequest());
-
-        //setting and save to database
-        var encodedPassword = passwordService.encodePassword(rawPassword);
+        var user = setterPasswordHash(customerRegisterDtoRequest.userDtoCreateRequest());
         user.setRoles(roles);
-        user.setPasswordHash(encodedPassword);
-
         var createdUser = userService.create(user);
-        customerDetail.setUser(createdUser);
-        customerDetail.setCreateAccount(new Date()); //TODO change automatically create Date
-        customerService.create(customerDetail);
 
-        var jwt = jwtService.generateToken(createdUser);
-        return new AuthDtoResponse(createdUser.getEmail(), jwt);
+        var customerDetail = userMapper.mapFrom(customerRegisterDtoRequest);
+        customerDetail.setUser(createdUser);
+        customerDetailService.create(customerDetail);
+        return response(createdUser);
     }
 
     public AuthDtoResponse registerEmployee(EmployeeRegisterDtoRequest employeeRegisterDtoRequest) {
-        return null;
+        credentialValidation.userGender(employeeRegisterDtoRequest.userDtoCreateRequest().gender());
+        var dataOfBirth = employeeRegisterDtoRequest.userDtoCreateRequest().dateOfBirth();
+
+        if (Objects.nonNull(dataOfBirth)) {
+            credentialValidation.dateOfBirthForEmployee(dataOfBirth);
+        }
+
+        var roles = Stream.of(UserRole.EMPLOYEE)
+                .map(roleService::read)
+                .collect(Collectors.toSet());
+
+        var user = setterPasswordHash(employeeRegisterDtoRequest.userDtoCreateRequest());
+        user.setRoles(roles);
+        var createdUser = userService.create(user);
+
+        var employeeDetail = userMapper.mapFrom(employeeRegisterDtoRequest);
+        employeeDetail.setUser(createdUser);
+        employeeDetailService.create(employeeDetail);
+        return response(createdUser);
+    }
+
+    private User setterPasswordHash(UserDtoCreateRequest userDtoCreateRequest) {
+        var rawPassword = passwordValidation.matcher(
+                userDtoCreateRequest.password(),
+                userDtoCreateRequest.repeatPassword()
+        );
+
+        var user = userMapper.mapFrom(userDtoCreateRequest);
+        var encodedPassword = passwordService.encodePassword(rawPassword);
+        user.setPasswordHash(encodedPassword);
+        return user;
+    }
+
+    private AuthDtoResponse response(User user) {
+        var jwt = jwtService.generateToken(user);
+        return new AuthDtoResponse(user.getEmail(), jwt);
     }
 
 }

@@ -1,29 +1,16 @@
 package com.cherniavskyi.shop.dto.request.user.update;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import com.cherniavskyi.shop.validation.ValidPassword;
 
 public record UserDtoPathPasswordRequest(
 
-        @NotBlank(message = "Password cannot be empty")
-        @Pattern(
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-                message = "Password is invalid "
-        )
+        @ValidPassword(message = "Please provide a valid password")
         String oldPassword,
 
-        @NotBlank(message = "Password cannot be empty")
-        @Pattern(
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-                message = "Password is invalid "
-        )
+        @ValidPassword(message = "Please provide a valid password")
         String newPassword,
 
-        @NotBlank(message = "RepeatPassword cannot be empty")
-        @Pattern(
-                regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
-                message = "Password is invalid "
-        )
+        @ValidPassword(message = "Please provide a valid password")
         String repeatNewPassword
 
 ) {

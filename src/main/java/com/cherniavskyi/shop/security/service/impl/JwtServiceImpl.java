@@ -2,6 +2,7 @@ package com.cherniavskyi.shop.security.service.impl;
 
 import com.cherniavskyi.shop.entity.user.User;
 import com.cherniavskyi.shop.exception.AuthorizationException;
+import com.cherniavskyi.shop.security.JwtAuthenticationFilter;
 import com.cherniavskyi.shop.security.service.JwtService;
 import io.jsonwebtoken.*;
 import io.vavr.control.Try;
@@ -52,7 +53,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String getToken(HttpServletRequest request) {
-        var header = request.getHeader("Authorization");
+        var header = request.getHeader(JwtAuthenticationFilter.AUTHORIZATION);
         return header.split(" ")[1].trim();
     }
 

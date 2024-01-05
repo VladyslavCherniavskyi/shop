@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class OrderController {
 
     private final OrderFacade orderFacade;
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}/customers")
     public ResponseEntity<Page<OrderDtoResponse>> getAllByCustomerId(
             @PathVariable @NotNull(message = "Id cannot be null") Long id,
@@ -29,11 +32,13 @@ public class OrderController {
         return new ResponseEntity<>(orderFacade.getAllByCustomerId(id, pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE','CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
         return new ResponseEntity<>(orderFacade.read(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @PostMapping
     public ResponseEntity<OrderDtoResponse> create(@RequestBody @Valid OrderDtoCreateRequest orderDtoCreateRequest) {
         return new ResponseEntity<>(orderFacade.create(orderDtoCreateRequest), HttpStatus.OK);

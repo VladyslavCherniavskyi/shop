@@ -1,7 +1,7 @@
 package com.cherniavskyi.shop.service.user.impl;
 
 import com.cherniavskyi.shop.entity.user.customer.CustomerDetail;
-import com.cherniavskyi.shop.repository.user.CustomerRepository;
+import com.cherniavskyi.shop.repository.user.CustomerDetailRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,11 +17,11 @@ import java.util.Optional;
 class CustomerDetailServiceImplTest {
 
     @Mock
-    private CustomerRepository customerRepository;
+    private CustomerDetailRepository customerDetailRepository;
     @Mock
     private CustomerDetail customerDetail;
     @InjectMocks
-    private CustomerServiceImpl customerService;
+    private CustomerDetailServiceImpl customerService;
 
     @Test
     void create() {
@@ -29,7 +29,7 @@ class CustomerDetailServiceImplTest {
         var newCustomer = new CustomerDetail();
 
         Mockito.doReturn(customerDetail)
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .save(newCustomer);
 
         //when
@@ -46,7 +46,7 @@ class CustomerDetailServiceImplTest {
         var id = 1L;
 
         Mockito.doReturn(Optional.of(customerDetail))
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .findById(id);
 
         //when
@@ -74,11 +74,11 @@ class CustomerDetailServiceImplTest {
         newCustomer.setCreateAccount(createAccountDate);
 
         Mockito.doReturn(Optional.of(customerDetail))
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .findById(newCustomer.getUserId());
 
         Mockito.doReturn(customerDetail)
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .save(newCustomer);
 
         customerDetail.setCreateAccount(createAccountDate);
@@ -96,17 +96,17 @@ class CustomerDetailServiceImplTest {
         var id = 1L;
 
         Mockito.doReturn(Optional.of(customerDetail))
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .findById(id);
 
         Mockito.doNothing()
-                .when(customerRepository)
+                .when(customerDetailRepository)
                 .delete(customerDetail);
 
         //when
         customerService.delete(id);
 
         //then
-        Mockito.verify(customerRepository).delete(customerDetail);
+        Mockito.verify(customerDetailRepository).delete(customerDetail);
     }
 }
