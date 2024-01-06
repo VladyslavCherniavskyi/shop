@@ -3,18 +3,18 @@ spring:
     enabled: true
     change-log: classpath:/db/changelog/db.changelog-master.yaml
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=shop
-    username:
-    password:
+    url: ${DATASOURCE_URL:}
+    username: ${DATASOURCE_USERNAME:}
+    password: ${DATASOURCE_PASSWORD:}
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.${JPA_DATABASE_PLATFORM_DIALECT:}
     hibernate:
       ddl-auto: validate
     show-sql: false
   sql:
     init:
-      platform: postgres
+      platform: ${SQL_PLATFORM:}
 jwt:
   app:
     secretKey: ${JWT_APP_SECRET_KEY:}
-    expirationMs: ${JWT_APP_EXPIRATION_MS:3600000}
+    expirationMs: ${JWT_APP_EXPIRATION_MS:}
