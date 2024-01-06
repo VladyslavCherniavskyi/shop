@@ -10,6 +10,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequestMapping("/photos")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class PhotoController {
 
     private final PhotoFacade photoFacade;
@@ -40,6 +42,7 @@ public class PhotoController {
         return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<Resource> download(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
         var resourceDto = photoFacade.download(id);

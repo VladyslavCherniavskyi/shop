@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class CategoryController {
 
     private final CategoryFacade categoryFacade;
@@ -30,11 +32,13 @@ public class CategoryController {
         return new ResponseEntity<>(categoryFacade.getAll(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Integer id) {
         return new ResponseEntity<>(categoryFacade.read(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{name}")
     public ResponseEntity<CategoryDtoResponse> read(@PathVariable @NotBlank(message = "Name cannot be empty") String name) {
         return new ResponseEntity<>(categoryFacade.read(name), HttpStatus.OK);

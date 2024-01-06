@@ -1,0 +1,63 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-customer-to-customer_detail
+      author: Vladyslav Cherniavskyi
+
+  - changeSet:
+      id: rename-table-column-and-drop-columns
+      author: Vladyslav Cherniavskyi
+      changes:
+        - dropColumn:
+            columnName: first_name
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: last_name
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: email
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: phone
+            tableName: customer
+            schemaName: shop
+        - dropColumn:
+            columnName: address
+            tableName: customer
+            schemaName: shop
+        - renameTable:
+            oldTableName: customer
+            newTableName: customer_detail
+            schemaName: shop
+        - renameColumn:
+            schemaName: shop
+            tableName: customer_detail
+            oldColumnName: id
+            newColumnName: user_id
+
+  - changeSet:
+      id: add-create-account
+      author: Vladyslav Cherniavskyi
+      changes:
+        - addColumn:
+            tableName: customer_detail
+            schemaName: shop
+            columns:
+              - column:
+                  name: create_account
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+                    defaultValue: 'CURRENT_TIMESTAMP'
+
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: customer_detail
+            constraintName: fk_user_customer_detail_user_id
+            referencedColumnNames: id
+            referencedTableName: user
+
+        - dropSequence:
+            sequenceName: customer_id_seq

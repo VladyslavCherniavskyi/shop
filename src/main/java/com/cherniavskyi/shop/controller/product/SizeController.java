@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/sizes")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class SizeController {
 
     private final SizeFacade sizeFacade;
@@ -29,6 +31,7 @@ public class SizeController {
         return new ResponseEntity<>(sizeFacade.getAll(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<SizeDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Integer id) {
         return new ResponseEntity<>(sizeFacade.read(id), HttpStatus.OK);

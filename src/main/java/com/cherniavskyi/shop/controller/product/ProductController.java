@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,27 +22,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class ProductController {
 
     private final ProductFacade productFacade;
     private final ProductService productService;
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping
     public ResponseEntity<Page<ProductDtoResponse>> getAll(Pageable pageable) {
         return new ResponseEntity<>(productFacade.getAll(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
         return new ResponseEntity<>(productFacade.read(id), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
+    @PostMapping("/search")
     public ResponseEntity<Page<ProductDtoResponse>> searchByName(@RequestBody @Valid ProductDtoSearchRequest productDtoSearchRequest,
                                                                  Pageable pageable) {
         return new ResponseEntity<>(productFacade.searchByProductDtoSearch(productDtoSearchRequest, pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}/categories")
     public ResponseEntity<Page<ProductDtoResponse>> getAllByCategoryId(
             @PathVariable @NotNull(message = "id cannot be null") Integer id,
@@ -49,7 +55,8 @@ public class ProductController {
         return new ResponseEntity<>(productFacade.getAllByCategoryId(id, pageable), HttpStatus.OK);
     }
 
-    @GetMapping("/filter")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
+    @PostMapping("/filter")
     public ResponseEntity<Page<ProductDtoResponse>> getAllByFilterDtoRequest(
             @RequestBody @Valid ProductDtoFilterRequest productDtoFilterRequest,
             Pageable pageable) {

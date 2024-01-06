@@ -18,14 +18,14 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface OrderMapper {
 
-    @Mapping(target = "customerId", source = "customer.id")
+    @Mapping(target = "customerId", source = "user.id")
     OrderDtoResponse mapTo(Order order);
 
     @Mapping(target = "orderId", source = "orderId.id")
     @Mapping(target = "productId", source = "productId.id")
     OrderDetailDtoResponse mapTo(OrderDetail orderDetail);
 
-    @Mapping(target = "customer.id", source = "customerId")
+    @Mapping(target = "user.id", source = "customerId")
     Order mapFrom(OrderDtoCreateRequest orderDtoCreateRequest);
 
     Order mapFrom(OrderDtoPatchRequest orderDtoPatchRequest);

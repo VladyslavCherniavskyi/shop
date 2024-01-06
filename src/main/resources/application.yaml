@@ -14,3 +14,7 @@ spring:
   sql:
     init:
       platform: postgres
+jwt:
+  app:
+    secretKey: ${JWT_APP_SECRET_KEY:}
+    expirationMs: ${JWT_APP_EXPIRATION_MS:3600000}

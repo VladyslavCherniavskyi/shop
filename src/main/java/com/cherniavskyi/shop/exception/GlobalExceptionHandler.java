@@ -3,14 +3,16 @@ package com.cherniavskyi.shop.exception;
 import com.cherniavskyi.shop.util.TimeUtils;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ValidationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.nio.file.AccessDeniedException;
 import java.util.Date;
 import java.util.Map;
 
@@ -22,7 +24,9 @@ public class GlobalExceptionHandler {
             AccessDeniedException.class, HttpStatus.FORBIDDEN,
             MethodArgumentNotValidException.class, HttpStatus.BAD_REQUEST,
             ConstraintViolationException.class, HttpStatus.BAD_REQUEST,
-            DataIntegrityViolationException.class, HttpStatus.BAD_REQUEST
+            DataIntegrityViolationException.class, HttpStatus.BAD_REQUEST,
+            ValidationException.class, HttpStatus.BAD_REQUEST,
+            BadCredentialsException.class, HttpStatus.BAD_REQUEST
     );
 
     @ExceptionHandler

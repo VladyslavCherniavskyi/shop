@@ -10,7 +10,7 @@ public final class TimeUtils {
     }
 
     private static final String FORMAT = "DD.MM.YYYY HH:mm:ss";
-    private static final TimeZone UTC = TimeZone.getTimeZone("UTC");
+    public static final TimeZone UTC = TimeZone.getTimeZone("UTC");
 
     public static String formatter(Date date) {
         var dateFormat = new SimpleDateFormat(FORMAT);

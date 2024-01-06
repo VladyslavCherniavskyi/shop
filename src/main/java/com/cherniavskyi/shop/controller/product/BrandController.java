@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/brands")
 @RequiredArgsConstructor
 @Validated
+@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
 public class BrandController {
 
     private final BrandFacade brandFacade;
@@ -29,6 +31,7 @@ public class BrandController {
         return new ResponseEntity<>(brandFacade.getAll(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<BrandDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
         return new ResponseEntity<>(brandFacade.read(id), HttpStatus.OK);

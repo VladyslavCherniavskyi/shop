@@ -55,7 +55,11 @@ public class PhotoServiceImpl implements PhotoService {
                 .flatMap(photo -> Arrays.stream(photo.getUrl().split("/"))
                         .reduce((first, second) -> second))
                 .map(fileStorageService::download)
-                .orElseThrow();
+                .orElseThrow(
+                        () -> new EntityNotFoundException(
+                                String.format("Cannot download photo with id:%s ", id)
+                        )
+                );
     }
 
     @Override
