@@ -22,33 +22,27 @@
 ## Table Of Contents
 
 * [About the Project](#about-the-project)
-* [Technologies Used](#technologies-Used)
+* [Technologies](#technologies)
 * [Getting Started](#getting-started)
 * [Environment variables](#environment-variables)
-* [Authors](#authors)
+* [Contacts](#contacts)
 
 ## About The Project
 
 ![login.png](login.png)
 
 Welcome to the Online-Shop project! This project is a web application. It is developed to provide users with a
-convenient and secure way to manage an online shop. The following features are available:
-<ul>
-<li> User accounts and authentication
-<li> Administrative panel
-<li> Product management
-<li> Order management
-</ul>
+convenient to manage an online shop. The following features are available:
 
-This project is built using the Spring Framework and Hibernate, two powerful and widely used technologies in the Java
-ecosystem. Spring provides the infrastructure for developing reliable and scalable enterprise-level applications, while
-Hibernate simplifies data access with powerful ORM capabilities.
+- Administrative panel
+- Product management
+- Order management
 
 The main functions of this program include creating and managing user accounts, operations with added products,
 purchasing goods, and viewing purchase history. The program adheres to the CRUD (Create, Read, Update, Delete) paradigm,
 providing a comprehensive and user-friendly interaction.
 
-## Technologies Used
+## Technologies
 
 <ul>
 <li> Java Core: <a href="https://docs.oracle.com/en/java/"> Oracle Java Documentation </a> </li>
@@ -67,52 +61,27 @@ providing a comprehensive and user-friendly interaction.
 To get started with the project, follow these steps:
 
 <ul>
-<h4> Step 1: Clone the repository </h4>
+<h4> Step 1: Build project and test </h4>
 
-- `git clone https://github.com/VladyslavCherniavskyi/shop.git`
-- `cd shop`
-- `./mvnw clean package -DskipTests`
+- `mvn clean install`
+- `mvn test`
 
-<h4> Step 2: Create a Dockerfile </h4>
-
-<h6 align="left">Use the official Maven image as a base image for building</h6>
-
-- `FROM maven:3.8.4-openjdk-17 AS build`
-- `WORKDIR /app`
-- `COPY . .`
-- `RUN ./mvnw clean package -DskipTests`
-
-<h6 align="left">Use the official OpenJDK image as a base image for running</h6>
-
-- `FROM adoptopenjdk/openjdk17:jre-17.0.1_12-alpine`
-- `WORKDIR /app`
-- `COPY --from=build /app/target/shop-*.jar app.jar`
-- `EXPOSE 8080`
-- `ENTRYPOINT ["java", "-jar", "app.jar"]`
-
-<h4> Step 3: Build the Docker Image</h4> 
+<h4> Step 2: Build the Docker Image</h4> 
 
 - `docker build -t shop .`
 
-<h4> Step 4: Run the Docker Container</h4> 
+<h4> Step 3: Run the Docker Container</h4> 
 
 - ```
-  docker run -p 8080:8080
-
-  -e DATASOURCE_URL=\...\=shop
-
-  -e DB_USERNAME=\...
-
-  -e DB_PASSWORD=\...
-
-  -e JPA_DATABASE_PLATFORM_DIALECT=org.hibernate.dialect.\ ...
-
-  -e JWT_APP_EXPIRATION_MS=\...
-
-  -e JWT_APP_SECRET_KEY=\...
-
-  -e SQL_PLATFORM=\...
-  shop-app```
+  docker run -p 8080:8080 
+  -e DATASOURCE_URL=<your_datasource_url> 
+  -e DB_USERNAME=<your_db_username> 
+  -e DB_PASSWORD=<your_db_password> 
+  -e JPA_DATABASE_PLATFORM_DIALECT=org.hibernate.dialect.<your_dialect> 
+  -e JWT_APP_EXPIRATION_MS=<your_jwt_expiration> 
+  -e JWT_APP_SECRET_KEY=<your_jwt_secret_key> 
+  -e SQL_PLATFORM=<your_sql_platform> 
+  shop
 
 ## Environment variables
 
@@ -122,7 +91,8 @@ To get started with the project, follow these steps:
 - JWT_APP_SECRET_KEY;
 - SQL_PLATFORM.
 
-## Authors
+## Contacts
 
 * **Vladyslav Cherniavskyi** - *Java Software Engineer*
 * **LinkedIn**- [Vladyslav Cherniavskyi](https://www.linkedin.com/feed/)
+* **Email**- vladyslavcherniavskyi@ukr.net
