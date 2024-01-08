@@ -52,7 +52,7 @@ class PhotoServiceImplTest {
                 "File content".getBytes()
         );
 
-        var photoDtoRelation = new PhotoDtoRelation(1L);
+        var photoDtoRelation = new PhotoDtoRelation(1L, 1L);
         var product = Mockito.mock(Product.class);
 
         Mockito.doReturn(product)

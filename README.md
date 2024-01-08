@@ -12,6 +12,8 @@
   <a href="https://spring.io/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" alt="spring" width="40" height="40"/> </a>
   <a href="https://spring.io/projects/spring-security" target="_blank" rel="noreferrer"> <img src="https://www.saashub.com/images/app/service_logos/129/rc71jd29uxtm/large.png?1580496061" alt="spring-security" width="40" height="40"/> </a>
   <a href="https://www.liquibase.com/" target="_blank" rel="noreferrer"> <img src="https://www.liquibase.com/wp-content/themes/liquibase/assets/img/logo.svg" alt="liquibase" width="90" height="40"/>  </a>
+  <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://www.postgresql.org/media/img/about/press/elephant.png" alt="postgresql" width="40" height="40"/>  </a>
+  <a href="https://jwt.io" target="_blank" rel="noreferrer"> <img src="https://jwt.io/img/pic_logo.svg" alt="jwt" width="40" height="40"/>  </a>
   <a href="https://hibernate.org/" target="_blank" rel="noreferrer"><img src="https://static-00.iconduck.com/assets.00/hibernate-icon-491x512-qd6jy16p.png" alt="hibernate" width="40" height="40"/> </a>
   <a href="https://maven.apache.org/" target="_blank" rel="noreferrer"> <img src="https://user-images.githubusercontent.com/43886029/158700377-62b0da69-81a2-4340-8ce6-dec718533aee.svg" alt="maven" width="40" height="40"/> </a>
   <a href="https://mapstruct.org" target="_blank" rel="noreferrer"> <img src="https://mapstruct.org/images/mapstruct.png" alt="mapstruct" width="90" height="40"/> </a>
@@ -51,6 +53,8 @@ providing a comprehensive and user-friendly interaction.
      <li> MVC: <a href="https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html"> Spring MVC Documentation </a> </li>
      <li> Security: <a href="https://docs.spring.io/spring-security/reference/index.html"> Spring Security Documentation </a> </li> </ul> </li>
 <li> Liquibase: <a href="https://docs.liquibase.com/home.html"> Liquibase documentation </a> </li>
+<li> PostgreSQL: <a href="https://www.postgresql.org/docs/"> PostgreSQL documentation </a> </li>
+<li> JWT: <a href="https://jwt.io/libraries"> JWT libraries </a> </li>
 <li> Hibernate: <a href="https://hibernate.org/orm/documentation/5.3/"> Hibernate Documentation </a> </li>
 <li> Maven: <a href="https://maven.apache.org/guides/index.html"> Maven Documentation </a> </li>
 <li> Mapstruct: <a href="https://mapstruct.org/documentation/installation/"> Mapstruct documentation </a> </li>
@@ -61,35 +65,36 @@ providing a comprehensive and user-friendly interaction.
 To get started with the project, follow these steps:
 
 <ul>
-<h4> Step 1: Build project and test </h4>
+<h4> Step 1: Build project</h4>
 
-- `mvn clean install`
+- `mvn clean package`
+
+<h4> Step 2: Start test</h4>
+
 - `mvn test`
 
 <h4> Step 2: Build the Docker Image</h4> 
 
-- `docker build -t shop .`
+- `docker build . -t shop_image`
 
 <h4> Step 3: Run the Docker Container</h4> 
 
 - ```
-  docker run -p 8080:8080 
-  -e DATASOURCE_URL=<your_datasource_url> 
+  docker run -p 8181:8181 
+  -e DATASOURCE_URL=<your_datasource_url>=shop 
   -e DB_USERNAME=<your_db_username> 
-  -e DB_PASSWORD=<your_db_password> 
-  -e JPA_DATABASE_PLATFORM_DIALECT=org.hibernate.dialect.<your_dialect> 
+  -e DB_PASSWORD=<your_db_password>
   -e JWT_APP_EXPIRATION_MS=<your_jwt_expiration> 
   -e JWT_APP_SECRET_KEY=<your_jwt_secret_key> 
-  -e SQL_PLATFORM=<your_sql_platform> 
-  shop
+  shop_image
 
 ## Environment variables
 
 - DATASOURCE_URL=**\=shop;
-- JPA_DATABASE_PLATFORM_DIALECT;
+- DB_USERNAME;
+- DB_PASSWORD;
 - JWT_APP_EXPIRATION_MS;
-- JWT_APP_SECRET_KEY;
-- SQL_PLATFORM.
+- JWT_APP_SECRET_KEY.
 
 ## Contacts
 
