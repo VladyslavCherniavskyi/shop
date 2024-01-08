@@ -7,13 +7,13 @@ spring:
     username: ${DATASOURCE_USERNAME:}
     password: ${DATASOURCE_PASSWORD:}
   jpa:
-    database-platform: org.hibernate.dialect.${JPA_DATABASE_PLATFORM_DIALECT:}
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
     show-sql: false
   sql:
     init:
-      platform: ${SQL_PLATFORM:}
+      platform: postgres
 jwt:
   app:
     secretKey: ${JWT_APP_SECRET_KEY:}
