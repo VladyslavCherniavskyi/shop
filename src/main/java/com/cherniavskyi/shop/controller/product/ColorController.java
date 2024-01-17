@@ -39,7 +39,7 @@ public class ColorController {
 
     @PostMapping
     public ResponseEntity<ColorDtoResponse> create(@RequestBody @Valid ColorDtoCreateRequest colorDtoCreateRequest) {
-        return new ResponseEntity<>(colorFacade.create(colorDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(colorFacade.create(colorDtoCreateRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

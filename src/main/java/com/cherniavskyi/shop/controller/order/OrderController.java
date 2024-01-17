@@ -7,8 +7,6 @@ import com.cherniavskyi.shop.facade.order.OrderFacade;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,14 +22,6 @@ public class OrderController {
 
     private final OrderFacade orderFacade;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
-    @GetMapping("/{id}/customers")
-    public ResponseEntity<Page<OrderDtoResponse>> getAllByCustomerId(
-            @PathVariable @NotNull(message = "Id cannot be null") Long id,
-            Pageable pageable) {
-        return new ResponseEntity<>(orderFacade.getAllByCustomerId(id, pageable), HttpStatus.OK);
-    }
-
     @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE','CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<OrderDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
@@ -41,7 +31,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @PostMapping
     public ResponseEntity<OrderDtoResponse> create(@RequestBody @Valid OrderDtoCreateRequest orderDtoCreateRequest) {
-        return new ResponseEntity<>(orderFacade.create(orderDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(orderFacade.create(orderDtoCreateRequest), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")

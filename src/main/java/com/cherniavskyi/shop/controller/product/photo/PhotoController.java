@@ -31,15 +31,15 @@ public class PhotoController {
     @PostMapping
     public ResponseEntity<PhotoDtoResponse> create(
             @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
-            @RequestParam("photo") @ValidMultipartFile MultipartFile file) {
-        return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.OK);
+            @ValidMultipartFile MultipartFile file) {
+        return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.CREATED);
     }
 
-    @PostMapping("/photos")
+    @PostMapping("/bulk")
     public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(
             @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
-            @RequestParam("photos") MultipartFile[] files) {
-        return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.OK);
+            MultipartFile[] files) {
+        return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")

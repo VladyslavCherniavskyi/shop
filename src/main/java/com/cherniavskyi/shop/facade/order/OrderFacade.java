@@ -8,8 +8,6 @@ import com.cherniavskyi.shop.mapper.OrderMapper;
 import com.cherniavskyi.shop.service.order.OrderDetailService;
 import com.cherniavskyi.shop.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +25,6 @@ public class OrderFacade {
     public OrderDtoResponse read(Long id) {
         var order = orderService.read(id);
         return orderMapper.mapTo(order);
-    }
-
-    public Page<OrderDtoResponse> getAllByCustomerId(Long id, Pageable pageable) {
-        return orderService.getAllByCustomerId(id, pageable)
-                .map(orderMapper::mapTo);
     }
 
     public OrderDtoResponse create(OrderDtoCreateRequest orderDtoCreateRequest) {
