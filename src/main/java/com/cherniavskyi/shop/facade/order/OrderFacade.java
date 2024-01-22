@@ -2,12 +2,15 @@ package com.cherniavskyi.shop.facade.order;
 
 import com.cherniavskyi.shop.dto.request.order.OrderDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.order.OrderDtoPatchRequest;
+import com.cherniavskyi.shop.dto.response.order.OrderDetailDtoResponse;
 import com.cherniavskyi.shop.dto.response.order.OrderDtoResponse;
 import com.cherniavskyi.shop.entity.order.OrderStatus;
 import com.cherniavskyi.shop.mapper.OrderMapper;
 import com.cherniavskyi.shop.service.order.OrderDetailService;
 import com.cherniavskyi.shop.service.order.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,5 +48,14 @@ public class OrderFacade {
         var order = orderMapper.mapFrom(orderDtoPatchRequest);
         var patchedOrder = orderService.patch(id, order);
         return orderMapper.mapTo(patchedOrder);
+    }
+
+    public Page<OrderDetailDtoResponse> getAllOrderDetailByOrderId(Long id, Pageable pageable) {
+        return orderDetailService.getAllByOrderId(id, pageable)
+                .map(orderMapper::mapTo);
+    }
+
+    public void deleteAllOrderDetailByOrderId(Long id) {
+        orderDetailService.deleteAllByOrderId(id);
     }
 }

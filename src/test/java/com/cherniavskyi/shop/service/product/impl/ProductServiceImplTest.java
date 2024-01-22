@@ -171,51 +171,6 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void findByCategoryId() {
-        //given
-        var firstGroupCategoryId = 1;
-        var secondGroupCategoryId = 2;
-        var pageable = Pageable.ofSize(5);
-        var firstGroupCategories = Stream.generate(Category::new)
-                .limit(3)
-                .peek(c -> c.setId(firstGroupCategoryId))
-                .collect(Collectors.toSet());
-
-        var secondGroupCategories = Stream.generate(Category::new)
-                .limit(2)
-                .peek(c -> c.setId(secondGroupCategoryId))
-                .collect(Collectors.toSet());
-
-        var firstProducts = Stream.generate(Product::new)
-                .peek(p -> p.setCategories(firstGroupCategories))
-                .limit(3)
-                .toList();
-        var secondProducts = Stream.generate(Product::new)
-                .peek(p -> p.setCategories(secondGroupCategories))
-                .limit(2)
-                .toList();
-
-        var products = Stream.of(firstProducts, secondProducts).flatMap(List::stream).toList();
-
-        var expected = new PageImpl<>(products, pageable, products.size());
-
-        Mockito.doReturn(expected)
-                .when(productRepository)
-                .findByCategoryId(firstGroupCategoryId, pageable);
-
-        //when
-        var actual = productService.findByCategoryId(firstGroupCategoryId, pageable);
-
-        //then
-        Assertions.assertEquals(expected, actual);
-        Assertions.assertEquals(9L, actual.get()
-                .flatMap(product -> product.getCategories().stream()
-                        .filter(category -> category.getId() == firstGroupCategoryId)
-                )
-                .count());
-    }
-
-    @Test
     void findAllByFilterDtoQuery() {
         //given
         var filterDtoQuery = Mockito.mock(FilterDtoQuery.class);

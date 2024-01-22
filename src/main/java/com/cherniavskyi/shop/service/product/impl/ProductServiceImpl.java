@@ -56,11 +56,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> findByCategoryId(Integer categoryId, Pageable pageable) {
-        return productRepository.findByCategoryId(categoryId, pageable);
-    }
-
-    @Override
     public Page<Product> findAllByFilterDtoQuery(FilterDtoQuery filterDtoQuery, Pageable pageable) {
         return productRepository.findAllByFilterDtoQuery(filterDtoQuery, pageable);
     }

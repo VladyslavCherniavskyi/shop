@@ -19,12 +19,6 @@ public class OrderDetailFacade {
     private final OrderDetailService orderDetailService;
     private final OrderMapper orderMapper;
 
-
-    public Page<OrderDetailDtoResponse> getAllByOrderKey(Long id, Pageable pageable) {
-        return orderDetailService.getAllByOrderId(id, pageable)
-                .map(orderMapper::mapTo);
-    }
-
     public OrderDetailDtoResponse patch(OrderDetailKey id, OrderDetailDtoPatchRequest orderDetailDtoPatchRequest) {
         var orderDetail = orderMapper.mapFrom(orderDetailDtoPatchRequest);
         var patchedOrderDetail = orderDetailService.patch(id, orderDetail);

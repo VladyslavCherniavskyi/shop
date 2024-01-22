@@ -37,11 +37,6 @@ public class ProductFacade {
                 .map(productMapper::mapTo);
     }
 
-    public Page<ProductDtoResponse> getAllByCategoryId(Integer categoryId, Pageable pageable) {
-        return productService.findByCategoryId(categoryId, pageable)
-                .map(productMapper::mapTo);
-    }
-
     public Page<ProductDtoResponse> getAllByFilterDtoRequest(ProductDtoFilterRequest productDtoFilterRequest, Pageable pageable) {
         var filterDtoQuery = productMapper.mapTo(productDtoFilterRequest);
         return productService.findAllByFilterDtoQuery(filterDtoQuery, pageable)
