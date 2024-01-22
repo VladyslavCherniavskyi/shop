@@ -2,7 +2,6 @@ package com.cherniavskyi.shop.service.product.impl;
 
 import com.cherniavskyi.shop.dto.query.FilterDtoQuery;
 import com.cherniavskyi.shop.dto.query.ProductDtoQuery;
-import com.cherniavskyi.shop.entity.product.Category;
 import com.cherniavskyi.shop.entity.product.Product;
 import com.cherniavskyi.shop.repository.product.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;

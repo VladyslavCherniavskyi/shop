@@ -6,8 +6,6 @@ import com.cherniavskyi.shop.entity.order.OrderDetailKey;
 import com.cherniavskyi.shop.mapper.OrderMapper;
 import com.cherniavskyi.shop.service.order.OrderDetailService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
