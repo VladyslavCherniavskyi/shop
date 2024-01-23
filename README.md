@@ -81,7 +81,7 @@ To get started with the project, follow these steps:
 
 - ```
   docker run -p 8080:8080 
-  -e DATASOURCE_URL=<your_datasource_url>=shop 
+  -e DATASOURCE_URL=<your_datasource_url>?currentSchema=shop 
   -e DB_USERNAME=<your_db_username> 
   -e DB_PASSWORD=<your_db_password>
   -e JWT_APP_EXPIRATION_MS=<your_jwt_expiration> 
@@ -90,7 +90,7 @@ To get started with the project, follow these steps:
 
 ## Environment variables
 
-- DATASOURCE_URL=**\=shop;
+- DATASOURCE_URL=...?currentSchema=shop;
 - DB_USERNAME;
 - DB_PASSWORD;
 - JWT_APP_EXPIRATION_MS;
