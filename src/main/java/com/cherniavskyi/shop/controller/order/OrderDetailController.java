@@ -8,8 +8,6 @@ import com.cherniavskyi.shop.service.order.OrderDetailService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,13 +24,6 @@ public class OrderDetailController {
     private final OrderDetailFacade orderDetailFacade;
     private final OrderDetailService orderDetailService;
 
-    @GetMapping("/{id}/orders")
-    public ResponseEntity<Page<OrderDetailDtoResponse>> getAllByOrderId(
-            @PathVariable @NotNull(message = "Id cannot be null") Long id,
-            Pageable pageable) {
-        return new ResponseEntity<>(orderDetailFacade.getAllByOrderKey(id, pageable), HttpStatus.OK);
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity<OrderDetailDtoResponse> patch(
             @PathVariable @NotNull(message = "Id cannot be null") OrderDetailKey id,
@@ -46,9 +37,4 @@ public class OrderDetailController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{id}/orders")
-    public ResponseEntity<?> deleteAllOrderId(@PathVariable @NotNull(message = "OrderId cannot be null") Long id) {
-        orderDetailService.deleteAllByOrderId(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

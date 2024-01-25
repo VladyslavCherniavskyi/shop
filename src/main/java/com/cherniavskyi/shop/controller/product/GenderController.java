@@ -39,7 +39,7 @@ public class GenderController {
 
     @PostMapping
     public ResponseEntity<GenderDtoResponse> create(@RequestBody @Valid GenderDtoCreateRequest genderDtoCreateRequest) {
-        return new ResponseEntity<>(genderFacade.create(genderDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(genderFacade.create(genderDtoCreateRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

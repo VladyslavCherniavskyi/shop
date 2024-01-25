@@ -22,40 +22,28 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 @Validated
-@PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
+@PreAuthorize("permitAll()")
 public class ProductController {
 
     private final ProductFacade productFacade;
     private final ProductService productService;
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping
     public ResponseEntity<Page<ProductDtoResponse>> getAll(Pageable pageable) {
         return new ResponseEntity<>(productFacade.getAll(pageable), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDtoResponse> read(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
         return new ResponseEntity<>(productFacade.read(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @PostMapping("/search")
     public ResponseEntity<Page<ProductDtoResponse>> searchByName(@RequestBody @Valid ProductDtoSearchRequest productDtoSearchRequest,
                                                                  Pageable pageable) {
         return new ResponseEntity<>(productFacade.searchByProductDtoSearch(productDtoSearchRequest, pageable), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
-    @GetMapping("/{id}/categories")
-    public ResponseEntity<Page<ProductDtoResponse>> getAllByCategoryId(
-            @PathVariable @NotNull(message = "id cannot be null") Integer id,
-            Pageable pageable) {
-        return new ResponseEntity<>(productFacade.getAllByCategoryId(id, pageable), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE', 'CUSTOMER')")
     @PostMapping("/filter")
     public ResponseEntity<Page<ProductDtoResponse>> getAllByFilterDtoRequest(
             @RequestBody @Valid ProductDtoFilterRequest productDtoFilterRequest,
@@ -63,11 +51,13 @@ public class ProductController {
         return new ResponseEntity<>(productFacade.getAllByFilterDtoRequest(productDtoFilterRequest, pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
     @PostMapping
     public ResponseEntity<ProductDtoResponse> create(@RequestBody @Valid ProductDtoCreateRequest productDtoCreateRequest) {
-        return new ResponseEntity<>(productFacade.create(productDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(productFacade.create(productDtoCreateRequest), HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductDtoResponse> update(
             @PathVariable @NotNull(message = "Id cannot be null") Long id,
@@ -75,6 +65,7 @@ public class ProductController {
         return new ResponseEntity<>(productFacade.update(id, productDtoUpdateRequest), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN','ADMIN','EMPLOYEE')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") Long id) {
         productService.delete(id);

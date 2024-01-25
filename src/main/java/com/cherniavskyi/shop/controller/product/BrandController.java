@@ -39,7 +39,7 @@ public class BrandController {
 
     @PostMapping
     public ResponseEntity<BrandDtoResponse> create(@RequestBody @Valid BrandDtoCreateRequest brandDtoCreateRequest) {
-        return new ResponseEntity<>(brandFacade.create(brandDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(brandFacade.create(brandDtoCreateRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

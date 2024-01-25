@@ -73,24 +73,25 @@ To get started with the project, follow these steps:
 
 - `mvn test`
 
-<h4> Step 2: Build the Docker Image</h4> 
+<h4> Step 3: Build the Docker Image</h4> 
 
 - `docker build . -t shop_image`
 
-<h4> Step 3: Run the Docker Container</h4> 
+<h4> Step 4: Run the Docker Container</h4> 
 
 - ```
-  docker run -p 8181:8181 
-  -e DATASOURCE_URL=<your_datasource_url>=shop 
+  docker run -p 8080:8080 
+  -e DATASOURCE_URL=<your_datasource_url>?currentSchema=shop 
+
   -e DB_USERNAME=<your_db_username> 
   -e DB_PASSWORD=<your_db_password>
   -e JWT_APP_EXPIRATION_MS=<your_jwt_expiration> 
   -e JWT_APP_SECRET_KEY=<your_jwt_secret_key> 
-  shop_image
+  shop
 
 ## Environment variables
 
-- DATASOURCE_URL=**\=shop;
+- DATASOURCE_URL=...?currentSchema=shop;
 - DB_USERNAME;
 - DB_PASSWORD;
 - JWT_APP_EXPIRATION_MS;

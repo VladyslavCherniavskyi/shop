@@ -39,7 +39,7 @@ public class SizeController {
 
     @PostMapping
     public ResponseEntity<SizeDtoResponse> create(@RequestBody @Valid SizeDtoCreateRequest sizeDtoCreateRequest) {
-        return new ResponseEntity<>(sizeFacade.create(sizeDtoCreateRequest), HttpStatus.OK);
+        return new ResponseEntity<>(sizeFacade.create(sizeDtoCreateRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

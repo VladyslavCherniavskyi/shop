@@ -2,6 +2,7 @@ package com.cherniavskyi.shop.facade.order;
 
 import com.cherniavskyi.shop.dto.request.order.OrderDtoCreateRequest;
 import com.cherniavskyi.shop.dto.request.order.OrderDtoPatchRequest;
+import com.cherniavskyi.shop.dto.response.order.OrderDetailDtoResponse;
 import com.cherniavskyi.shop.dto.response.order.OrderDtoResponse;
 import com.cherniavskyi.shop.entity.order.OrderStatus;
 import com.cherniavskyi.shop.mapper.OrderMapper;
@@ -29,11 +30,6 @@ public class OrderFacade {
         return orderMapper.mapTo(order);
     }
 
-    public Page<OrderDtoResponse> getAllByCustomerId(Long id, Pageable pageable) {
-        return orderService.getAllByCustomerId(id, pageable)
-                .map(orderMapper::mapTo);
-    }
-
     public OrderDtoResponse create(OrderDtoCreateRequest orderDtoCreateRequest) {
         var order = orderMapper.mapFrom(orderDtoCreateRequest);
         order.setOrderStatus(OrderStatus.CREATED);
@@ -52,5 +48,14 @@ public class OrderFacade {
         var order = orderMapper.mapFrom(orderDtoPatchRequest);
         var patchedOrder = orderService.patch(id, order);
         return orderMapper.mapTo(patchedOrder);
+    }
+
+    public Page<OrderDetailDtoResponse> getAllOrderDetailByOrderId(Long id, Pageable pageable) {
+        return orderDetailService.getAllByOrderId(id, pageable)
+                .map(orderMapper::mapTo);
+    }
+
+    public void deleteAllOrderDetailByOrderId(Long id) {
+        orderDetailService.deleteAllByOrderId(id);
     }
 }
