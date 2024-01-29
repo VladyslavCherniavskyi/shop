@@ -2,8 +2,8 @@ package com.cherniavskyi.shop.service.user.impl;
 
 import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
 import com.cherniavskyi.shop.entity.user.UserPhoto;
+import com.cherniavskyi.shop.repository.file.UserFileStorageRepository;
 import com.cherniavskyi.shop.repository.user.UserPhotoRepository;
-import com.cherniavskyi.shop.service.file.FileStorageService;
 import com.cherniavskyi.shop.service.user.UserPhotoService;
 import com.cherniavskyi.shop.service.user.UserService;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,15 +24,15 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     private final UserService userService;
     private final UserPhotoRepository userPhotoRepository;
-    private final FileStorageService fileStorageService;
+    private final UserFileStorageRepository fileStorageRepository;
 
     @Override
     public UserPhoto create(PhotoDtoRelation photoDtoRelation, MultipartFile file) {
         var user = userService.read(photoDtoRelation.userId());
-        var uploadedFile = fileStorageService.upload(file);
+        var uploadedFile = fileStorageRepository.upload(file);
         var photo = UserPhoto.builder()
                 .name(file.getOriginalFilename())
-                .url(uploadedFile.toString())
+                .url("/" + uploadedFile.getName())
                 .type(file.getContentType())
                 .size(file.getSize())
                 .user(user)
@@ -54,7 +54,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
         return Optional.ofNullable(read(id))
                 .flatMap(photo -> Arrays.stream(photo.getUrl().split("/"))
                         .reduce((first, second) -> second))
-                .map(fileStorageService::download)
+                .map(fileStorageRepository::download)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
                                 String.format("Cannot download photo with id:%s ", id)
@@ -68,7 +68,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
                 .ifPresent(photo -> Arrays.stream(photo.getUrl().split("/"))
                         .reduce((first, second) -> second)
                         .ifPresent(name -> {
-                            fileStorageService.delete(name);
+                            fileStorageRepository.delete(name);
                             userPhotoRepository.delete(photo);
                         })
                 );

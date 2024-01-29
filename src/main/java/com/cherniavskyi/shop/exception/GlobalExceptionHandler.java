@@ -26,7 +26,9 @@ public class GlobalExceptionHandler {
             ConstraintViolationException.class, HttpStatus.BAD_REQUEST,
             DataIntegrityViolationException.class, HttpStatus.BAD_REQUEST,
             ValidationException.class, HttpStatus.BAD_REQUEST,
-            BadCredentialsException.class, HttpStatus.BAD_REQUEST
+            BadCredentialsException.class, HttpStatus.BAD_REQUEST,
+            MultipartConvertException.class, HttpStatus.BAD_REQUEST,
+            FileDeletionException.class, HttpStatus.BAD_REQUEST
     );
 
     @ExceptionHandler

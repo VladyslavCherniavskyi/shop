@@ -21,3 +21,10 @@ jwt:
   app:
     secretKey: ${JWT_APP_SECRET_KEY:}
     expirationMs: ${JWT_APP_EXPIRATION_MS:}
+cloud:
+  aws:
+    accessKey: ${ACCESS_KEY:}
+    secretAccessKey: ${SECRET_ACCESS_KEY:}
+    region: ${REGION:}
+    productBucketName: ${PRODUCT_BUCKET_NAME:}
+    userBucketName: ${USER_BUCKET_NAME:}

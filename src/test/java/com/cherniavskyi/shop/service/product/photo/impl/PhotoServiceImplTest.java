@@ -4,7 +4,7 @@ import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
 import com.cherniavskyi.shop.entity.product.Product;
 import com.cherniavskyi.shop.entity.product.photo.Photo;
 import com.cherniavskyi.shop.repository.product.photo.PhotoRepository;
-import com.cherniavskyi.shop.service.file.impl.FileStorageServiceImpl;
+import com.cherniavskyi.shop.repository.file.impl.local.LocalProductStorageRepositoryImpl;
 import com.cherniavskyi.shop.service.product.impl.ProductServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ class PhotoServiceImplTest {
     @Mock
     private ProductServiceImpl productService;
     @Mock
-    private FileStorageServiceImpl fileStorageService;
+    private LocalProductStorageRepositoryImpl fileStorageService;
     @Mock
     private Photo photo;
     @InjectMocks

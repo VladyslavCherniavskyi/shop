@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.service.file.impl;
 
+import com.cherniavskyi.shop.repository.file.impl.local.LocalProductStorageRepositoryImpl;
 import com.cherniavskyi.shop.util.PathUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @SpringBootTest
-class FileStorageServiceImplTest {
+class LocalProductStorageRepositoryImplTest {
 
     @InjectMocks
-    private FileStorageServiceImpl fileStorageService;
+    private LocalProductStorageRepositoryImpl fileStorageService;
 
     @Test
     void upload() {
@@ -28,7 +29,7 @@ class FileStorageServiceImplTest {
 
         try (var mockedStatic = Mockito.mockStatic(PathUtils.class)) {
             mockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(expectedFile.toPath());
 
@@ -45,7 +46,7 @@ class FileStorageServiceImplTest {
         //given
         try (var mockedStatic = Mockito.mockStatic(PathUtils.class)) {
             mockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(null);
 
@@ -65,7 +66,7 @@ class FileStorageServiceImplTest {
 
         try (var mockedStatic = Mockito.mockStatic(PathUtils.class)) {
             mockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(filePath);
 
@@ -86,7 +87,7 @@ class FileStorageServiceImplTest {
         //given
         try (var mockedStatic = Mockito.mockStatic(PathUtils.class)) {
             mockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(null);
 
@@ -109,7 +110,7 @@ class FileStorageServiceImplTest {
                 var filesMockedStatic = Mockito.mockStatic(Files.class)
         ) {
             pathUtilsMockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(filePath);
 
@@ -127,7 +128,7 @@ class FileStorageServiceImplTest {
         //given
         try (var mockedStatic = Mockito.mockStatic(PathUtils.class)) {
             mockedStatic.when(
-                            () -> PathUtils.getAbsolutePath(Mockito.anyString())
+                            () -> PathUtils.getAbsolutePath(Mockito.anyString(), Mockito.anyString())
                     )
                     .thenReturn(null);
 
