@@ -1,13 +1,13 @@
 package com.cherniavskyi.shop.repository.file;
 
+import com.cherniavskyi.shop.dto.file.FileRequest;
 import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 
 public interface FileStorageRepository {
 
-    File upload(MultipartFile file);
+    File upload(FileRequest request);
 
     Resource download(String name);
 
