@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class LocalUserStorageRepositoryImpl extends AbstractLocalStorageRepository implements UserFileStorageRepository {
 
     public LocalUserStorageRepositoryImpl(
-            @Value("${local.directory.userDirectory}")
+            @Value("${local.directory.userPhotoDirectory}")
             String folderName) {
         super(folderName);
     }

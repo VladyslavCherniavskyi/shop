@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.repository.file.impl.local;
 
+import com.cherniavskyi.shop.dto.file.FileRequest;
 import com.cherniavskyi.shop.repository.file.FileStorageRepository;
 import com.cherniavskyi.shop.util.PathUtils;
 import io.vavr.control.Try;
@@ -7,11 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.UUID;
 
 @Profile("local")
 @RequiredArgsConstructor
@@ -20,11 +19,10 @@ public abstract class AbstractLocalStorageRepository implements FileStorageRepos
     private final String directory;
 
     @Override
-    public File upload(MultipartFile file) {
-        var fileName = UUID.randomUUID().toString();
-        var filePath = PathUtils.getAbsolutePath(directory, fileName).toString();
+    public File upload(FileRequest request) {
+        var filePath = PathUtils.getAbsolutePath(directory, request.name()).toString();
         return Try.of(() -> {
-                    file.transferTo(new File(filePath));
+                    request.file().transferTo(new File(filePath));
                     return new File(filePath);
                 }
         ).get();
