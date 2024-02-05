@@ -57,17 +57,17 @@ public class User {
     )
     private Set<Role> roles;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     private UserPhoto photo;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user")
     private Set<Order> orders;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     @PrimaryKeyJoinColumn
     private EmployeeDetail employeeDetail;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     @PrimaryKeyJoinColumn
     private CustomerDetail customerDetail;
 }
