@@ -65,11 +65,12 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public String delete(UUID id) {
         var userPhoto = read(id);
         var name = Arrays.stream(userPhoto.getUrl().split("/"))
-                .reduce((first, second) -> second);
+                .reduce((first, second) -> second)
+                .toString();
         userPhotoRepository.deleteById(id);
-        fileStorageRepository.delete(name.get());
+        return fileStorageRepository.delete(name);
     }
 }

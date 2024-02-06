@@ -15,6 +15,6 @@ public interface PhotoService {
 
     Resource download(UUID id);
 
-    void delete(UUID id);
+    String delete(UUID id);
 
 }
