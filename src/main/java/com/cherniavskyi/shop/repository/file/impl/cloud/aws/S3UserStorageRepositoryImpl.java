@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class S3UserStorageRepositoryImpl extends AbstractS3StorageRepository implements UserFileStorageRepository {
 
     public S3UserStorageRepositoryImpl(
-            @Value("${cloud.aws.userBucketName}")
+            @Value("${cloud.aws.userPhotoBucketName}")
             String bucketName,
             AmazonS3 amazonS3
     ) {

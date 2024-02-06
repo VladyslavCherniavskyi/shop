@@ -26,5 +26,5 @@ cloud:
     accessKey: ${ACCESS_KEY:}
     secretAccessKey: ${SECRET_ACCESS_KEY:}
     region: ${REGION:}
-    productBucketName: ${PRODUCT_BUCKET_NAME:}
-    userBucketName: ${USER_BUCKET_NAME:}
+    productPhotoBucketName: ${PRODUCT_PHOTO_BUCKET_NAME:}
+    userPhotoBucketName: ${USER_PHOTO_BUCKET_NAME:}

@@ -16,6 +16,7 @@
   <a href="https://jwt.io" target="_blank" rel="noreferrer"> <img src="https://jwt.io/img/pic_logo.svg" alt="jwt" width="40" height="40"/>  </a>
   <a href="https://hibernate.org/" target="_blank" rel="noreferrer"><img src="https://static-00.iconduck.com/assets.00/hibernate-icon-491x512-qd6jy16p.png" alt="hibernate" width="40" height="40"/> </a>
   <a href="https://maven.apache.org/" target="_blank" rel="noreferrer"> <img src="https://user-images.githubusercontent.com/43886029/158700377-62b0da69-81a2-4340-8ce6-dec718533aee.svg" alt="maven" width="40" height="40"/> </a>
+  <a href="https://aws.amazon.com" target="_blank" rel="noreferrer"> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/300px-Amazon_Web_Services_Logo.svg.png" alt="aws" width="40" height="40"/> </a>
   <a href="https://mapstruct.org" target="_blank" rel="noreferrer"> <img src="https://mapstruct.org/images/mapstruct.png" alt="mapstruct" width="90" height="40"/> </a>
  </p>
     <br/>
@@ -26,7 +27,8 @@
 * [About the Project](#about-the-project)
 * [Technologies](#technologies)
 * [Getting Started](#getting-started)
-* [Environment variables](#environment-variables)
+* [Local environment variables](#Local-environment-variables)
+* [Cloud environment variables](#Cloud-environment-variables)
 * [Contacts](#contacts)
 
 ## About The Project
@@ -58,6 +60,7 @@ providing a comprehensive and user-friendly interaction.
 <li> Hibernate: <a href="https://hibernate.org/orm/documentation/5.3/"> Hibernate Documentation </a> </li>
 <li> Maven: <a href="https://maven.apache.org/guides/index.html"> Maven Documentation </a> </li>
 <li> Mapstruct: <a href="https://mapstruct.org/documentation/installation/"> Mapstruct documentation </a> </li>
+<li> AWS: <a href="https://aws.amazon.com/documentation-overview/?nc2=h_ql_doc_do"> AWS documentation </a> </li>
 </ul>
 
 ## Getting Started
@@ -81,19 +84,40 @@ To get started with the project, follow these steps:
 
 - ```
   docker run -p 8080:8080 
-  -e DATASOURCE_URL=<your_datasource_url>?currentSchema=shop 
+  -e LOCAL_DATASOURCE_URL=<your_datasource_url>?currentSchema=shop 
 
-  -e DB_USERNAME=<your_db_username> 
-  -e DB_PASSWORD=<your_db_password>
+  -e LOCAL_DATASOURCE_USERNAME=<your_db_username> 
+  -e LOCAL_DATASOURCE_PASSWORD=<your_db_password>
+  -e PRODUCT_PHOTO_DIRECTORY=<your_product_photo_directory>
+  -e USER_PHOTO_DIRECTORY=<your_user_photo_directory>
   -e JWT_APP_EXPIRATION_MS=<your_jwt_expiration> 
   -e JWT_APP_SECRET_KEY=<your_jwt_secret_key> 
   shop
 
-## Environment variables
+## Local environment variables
+
+--spring.profiles.active=local
+- LOCAL_DATASOURCE_URL=...?currentSchema=shop;
+- LOCAL_DATASOURCE_USERNAME;
+- LOCAL_DATASOURCE_PASSWORD;
+- PRODUCT_PHOTO_DIRECTORY;
+- USER_PHOTO_DIRECTORY;
+
+- JWT_APP_EXPIRATION_MS;
+- JWT_APP_SECRET_KEY.
+
+## Cloud environment variables
 
 - DATASOURCE_URL=...?currentSchema=shop;
-- DB_USERNAME;
-- DB_PASSWORD;
+- DATASOURCE_USERNAME;
+- DATASOURCE_PASSWORD;
+- ORIGINS;
+- ACCESS_KEY;
+- SECRET_ACCESS_KEY;
+- REGION;
+- PRODUCT_PHOTO_BUCKET_NAME;
+- USER_PHOTO_BUCKET_NAME
+
 - JWT_APP_EXPIRATION_MS;
 - JWT_APP_SECRET_KEY.
 
