@@ -1,5 +1,6 @@
 package com.cherniavskyi.shop.service.user.impl;
 
+import com.cherniavskyi.shop.dto.file.FileRequest;
 import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
 import com.cherniavskyi.shop.entity.user.UserPhoto;
 import com.cherniavskyi.shop.repository.file.UserFileStorageRepository;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -29,15 +29,17 @@ public class UserPhotoServiceImpl implements UserPhotoService {
     @Override
     public UserPhoto create(PhotoDtoRelation photoDtoRelation, MultipartFile file) {
         var user = userService.read(photoDtoRelation.userId());
-        var uploadedFile = fileStorageRepository.upload(file);
+        var request = new FileRequest(file, UUID.randomUUID().toString());
         var photo = UserPhoto.builder()
                 .name(file.getOriginalFilename())
-                .url("/" + uploadedFile.getName())
+                .url("/" + request.name())
                 .type(file.getContentType())
                 .size(file.getSize())
                 .user(user)
                 .build();
-        return userPhotoRepository.save(photo);
+        var savedPhoto = userPhotoRepository.save(photo);
+        fileStorageRepository.upload(request);
+        return savedPhoto;
     }
 
     @Override
@@ -51,9 +53,9 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public Resource download(UUID id) {
-        return Optional.ofNullable(read(id))
-                .flatMap(photo -> Arrays.stream(photo.getUrl().split("/"))
-                        .reduce((first, second) -> second))
+        var userPhoto = read(id);
+        return Arrays.stream(userPhoto.getUrl().split("/"))
+                .reduce((first, second) -> second)
                 .map(fileStorageRepository::download)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
@@ -64,13 +66,10 @@ public class UserPhotoServiceImpl implements UserPhotoService {
 
     @Override
     public void delete(UUID id) {
-        Optional.ofNullable(read(id))
-                .ifPresent(photo -> Arrays.stream(photo.getUrl().split("/"))
-                        .reduce((first, second) -> second)
-                        .ifPresent(name -> {
-                            fileStorageRepository.delete(name);
-                            userPhotoRepository.delete(photo);
-                        })
-                );
+        var userPhoto = read(id);
+        var name = Arrays.stream(userPhoto.getUrl().split("/"))
+                .reduce((first, second) -> second);
+        userPhotoRepository.deleteById(id);
+        fileStorageRepository.delete(name.get());
     }
 }

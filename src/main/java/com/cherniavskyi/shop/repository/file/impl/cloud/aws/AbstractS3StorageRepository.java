@@ -2,6 +2,7 @@ package com.cherniavskyi.shop.repository.file.impl.cloud.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.cherniavskyi.shop.dto.file.FileRequest;
 import com.cherniavskyi.shop.exception.FileDeletionException;
 import com.cherniavskyi.shop.exception.MultipartConvertException;
 import com.cherniavskyi.shop.repository.file.FileStorageRepository;
@@ -10,13 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Objects;
-import java.util.UUID;
 
 @Profile("!local")
 @RequiredArgsConstructor
@@ -26,21 +24,15 @@ public abstract class AbstractS3StorageRepository implements FileStorageReposito
     private final AmazonS3 amazonS3;
 
     @Override
-    public File upload(MultipartFile file) {
-        var fileName = UUID.randomUUID().toString();
-        var convertFile = convert(file);
+    public File upload(FileRequest request) {
+        var file = convert(request);
         amazonS3.putObject(
                 new PutObjectRequest(
                         bucketName,
-                        fileName,
-                        convertFile
+                        request.name(),
+                        file
                 ));
-        return Try.of(() -> {
-            Files.delete(convertFile.toPath());
-            return convertFile;
-        }).getOrElseThrow(ex ->
-                new FileDeletionException("Delete a file exception ", ex)
-        );
+        return file;
     }
 
     @Override
@@ -55,18 +47,24 @@ public abstract class AbstractS3StorageRepository implements FileStorageReposito
 
     @Override
     public String delete(String name) {
-        return null;
+        return Try.of(() -> {
+                    amazonS3.deleteObject(bucketName, name);
+                    return String.format("Object with key '%s' deleted successfully.", name);
+                }
+        ).getOrElseThrow(ex ->
+                new FileDeletionException("Delete a file exception ", ex)
+        );
     }
 
-    private File convert(MultipartFile file) {
-        var convertedFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+    private File convert(FileRequest request) {
+        var file = new File(request.name());
         return Try.of(() -> {
                     Files.copy(
-                            file.getInputStream(),
-                            convertedFile.toPath(),
+                            request.file().getInputStream(),
+                            file.toPath(),
                             StandardCopyOption.REPLACE_EXISTING
                     );
-                    return convertedFile;
+                    return file;
                 }
         ).getOrElseThrow(throwable ->
                 new MultipartConvertException("Error converting MultipartFile to File", throwable)
