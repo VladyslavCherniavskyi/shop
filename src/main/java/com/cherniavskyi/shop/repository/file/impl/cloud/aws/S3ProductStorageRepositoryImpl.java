@@ -11,7 +11,8 @@ import org.springframework.stereotype.Repository;
 public class S3ProductStorageRepositoryImpl extends AbstractS3StorageRepository implements ProductFileStorageRepository {
 
     public S3ProductStorageRepositoryImpl(
-            @Value("${cloud.aws.productBucketName}")
+
+            @Value("${cloud.aws.productPhotoBucketName}")
             String bucketName,
             AmazonS3 amazonS3
     ) {
