@@ -1,7 +1,7 @@
 package com.cherniavskyi.shop.repository.file.impl.local;
 
 import com.cherniavskyi.shop.dto.file.FileRequest;
-import com.cherniavskyi.shop.exception.FileDeletionException;
+import com.cherniavskyi.shop.exception.FileDeleteException;
 import com.cherniavskyi.shop.repository.file.FileStorageRepository;
 import com.cherniavskyi.shop.util.PathUtils;
 import io.vavr.control.Try;
@@ -44,7 +44,7 @@ public abstract class AbstractLocalStorageRepository implements FileStorageRepos
                     return String.format("File named: %s deleted successfully", name);
                 }
         ).getOrElseThrow(ex ->
-                new FileDeletionException("Delete a file exception ", ex)
+                new FileDeleteException("Delete a file exception ", ex)
         );
     }
 }

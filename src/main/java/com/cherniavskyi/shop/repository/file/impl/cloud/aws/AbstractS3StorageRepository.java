@@ -3,7 +3,7 @@ package com.cherniavskyi.shop.repository.file.impl.cloud.aws;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.cherniavskyi.shop.dto.file.FileRequest;
-import com.cherniavskyi.shop.exception.FileDeletionException;
+import com.cherniavskyi.shop.exception.FileDeleteException;
 import com.cherniavskyi.shop.exception.MultipartConvertException;
 import com.cherniavskyi.shop.repository.file.FileStorageRepository;
 import io.vavr.control.Try;
@@ -32,6 +32,9 @@ public abstract class AbstractS3StorageRepository implements FileStorageReposito
                         request.name(),
                         file
                 ));
+        Try.run(() ->
+                Files.delete(file.toPath())
+        );
         return file;
     }
 
@@ -52,7 +55,7 @@ public abstract class AbstractS3StorageRepository implements FileStorageReposito
                     return String.format("Object with key '%s' deleted successfully.", name);
                 }
         ).getOrElseThrow(ex ->
-                new FileDeletionException("Delete a file exception ", ex)
+                new FileDeleteException("Delete a file exception ", ex)
         );
     }
 

@@ -69,7 +69,7 @@ public class PhotoServiceImpl implements PhotoService {
         var photo = read(id);
         var name = Arrays.stream(photo.getUrl().split("/"))
                 .reduce((first, second) -> second)
-                .toString();
+                .orElse("");
         photoRepository.delete(photo);
         return fileStorageRepository.delete(name);
     }

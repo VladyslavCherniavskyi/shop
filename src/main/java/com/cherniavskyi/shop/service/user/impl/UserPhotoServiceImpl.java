@@ -69,7 +69,7 @@ public class UserPhotoServiceImpl implements UserPhotoService {
         var userPhoto = read(id);
         var name = Arrays.stream(userPhoto.getUrl().split("/"))
                 .reduce((first, second) -> second)
-                .toString();
+                .orElse("");
         userPhotoRepository.deleteById(id);
         return fileStorageRepository.delete(name);
     }
