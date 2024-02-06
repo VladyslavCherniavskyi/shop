@@ -8,8 +8,8 @@ public final class PathUtils {
     private PathUtils() {
     }
 
-    public static Path getAbsolutePath(String resource) {
-        var rootPath = Paths.get("photos").toAbsolutePath().toString();
+    public static Path getAbsolutePath(String folderName, String resource) {
+        var rootPath = Paths.get(folderName).toAbsolutePath().toString();
         return Paths.get(rootPath, resource);
     }
 }

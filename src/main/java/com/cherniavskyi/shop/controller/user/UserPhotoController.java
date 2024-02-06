@@ -44,8 +44,7 @@ public class UserPhotoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
-        userPhotoService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
+        return new ResponseEntity<>(userPhotoService.delete(id), HttpStatus.NO_CONTENT);
     }
 }

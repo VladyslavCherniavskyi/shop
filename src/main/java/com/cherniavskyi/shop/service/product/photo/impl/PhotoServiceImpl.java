@@ -1,9 +1,10 @@
 package com.cherniavskyi.shop.service.product.photo.impl;
 
+import com.cherniavskyi.shop.dto.file.FileRequest;
 import com.cherniavskyi.shop.dto.file.PhotoDtoRelation;
 import com.cherniavskyi.shop.entity.product.photo.Photo;
+import com.cherniavskyi.shop.repository.file.ProductFileStorageRepository;
 import com.cherniavskyi.shop.repository.product.photo.PhotoRepository;
-import com.cherniavskyi.shop.service.file.FileStorageService;
 import com.cherniavskyi.shop.service.product.ProductService;
 import com.cherniavskyi.shop.service.product.photo.PhotoService;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,20 +24,22 @@ public class PhotoServiceImpl implements PhotoService {
 
     private final PhotoRepository photoRepository;
     private final ProductService productService;
-    private final FileStorageService fileStorageService;
+    private final ProductFileStorageRepository fileStorageRepository;
 
     @Override
     public Photo create(PhotoDtoRelation photoDtoRelation, MultipartFile file) {
         var product = productService.read(photoDtoRelation.productId());
-        var uploadedFile = fileStorageService.upload(file);
+        var request = new FileRequest(file, UUID.randomUUID().toString());
         var photo = Photo.builder()
                 .name(file.getOriginalFilename())
-                .url(uploadedFile.toString())
+                .url("/" + request.name())
                 .type(file.getContentType())
                 .size(file.getSize())
                 .product(product)
                 .build();
-        return photoRepository.save(photo);
+        var savedPhoto = photoRepository.save(photo);
+        fileStorageRepository.upload(request);
+        return savedPhoto;
     }
 
     @Override
@@ -51,10 +53,10 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     public Resource download(UUID id) {
-        return Optional.ofNullable(read(id))
-                .flatMap(photo -> Arrays.stream(photo.getUrl().split("/"))
-                        .reduce((first, second) -> second))
-                .map(fileStorageService::download)
+        var photo = read(id);
+        return Arrays.stream(photo.getUrl().split("/"))
+                .reduce((first, second) -> second)
+                .map(fileStorageRepository::download)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
                                 String.format("Cannot download photo with id:%s ", id)
@@ -63,14 +65,12 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
-    public void delete(UUID id) {
-        Optional.ofNullable(read(id))
-                .ifPresent(photo -> Arrays.stream(photo.getUrl().split("/"))
-                        .reduce((first, second) -> second)
-                        .ifPresent(name -> {
-                            fileStorageService.delete(name);
-                            photoRepository.delete(photo);
-                        })
-                );
+    public String delete(UUID id) {
+        var photo = read(id);
+        var name = Arrays.stream(photo.getUrl().split("/"))
+                .reduce((first, second) -> second)
+                .orElse("");
+        photoRepository.delete(photo);
+        return fileStorageRepository.delete(name);
     }
 }

@@ -31,14 +31,14 @@ public class PhotoController {
     @PostMapping
     public ResponseEntity<PhotoDtoResponse> create(
             @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
-            @ValidMultipartFile MultipartFile file) {
+            @RequestParam("photo") @ValidMultipartFile MultipartFile file) {
         return new ResponseEntity<>(photoFacade.create(productId, file), HttpStatus.CREATED);
     }
 
     @PostMapping("/bulk")
     public ResponseEntity<Set<PhotoDtoResponse>> createPhotos(
             @RequestParam("productId") @NotNull(message = "ProductId cannot be null") Long productId,
-            MultipartFile[] files) {
+            @RequestParam("photos") MultipartFile[] files) {
         return new ResponseEntity<>(photoFacade.createPhotos(productId, files), HttpStatus.CREATED);
     }
 
@@ -53,8 +53,7 @@ public class PhotoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
-        photoService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> delete(@PathVariable @NotNull(message = "Id cannot be null") UUID id) {
+        return new ResponseEntity<>(photoService.delete(id), HttpStatus.NO_CONTENT);
     }
 }

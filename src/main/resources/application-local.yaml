@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: ${LOCAL_DATASOURCE_URL:}
+    username: ${LOCAL_DATASOURCE_USERNAME:}
+    password: ${LOCAL_DATASOURCE_PASSWORD:}
+local:
+  directory:
+    productPhotoDirectory: ${PRODUCT_PHOTO_DIRECTORY:}
+    userPhotoDirectory: ${USER_PHOTO_DIRECTORY:}
